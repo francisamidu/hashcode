@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import Hero from '@/components/ui/Hero'
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { Sun, Moon } from 'lucide-react'
@@ -12,12 +13,15 @@ const Index = () => {
         <nav className="container mx-auto p-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600 font-bold text-2xl flex items-center">
+              <Link
+                to="/"
+                className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600 font-bold text-2xl flex items-center"
+              >
                 <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg mr-2 flex items-center justify-center">
                   <span className="text-white text-xs">HC</span>
                 </div>
                 Hashcode
-              </div>
+              </Link>
               <div className="hidden md:flex ml-10 space-x-8">
                 <Link
                   to="/features"
@@ -51,17 +55,14 @@ const Index = () => {
                   <Moon className="h-5 w-5" />
                 )}
               </Button>
-              <Button className="!block" variant="outline">
-                Sign In
-              </Button>
-              <Button className="!block" variant="default">
-                Get started
+              <Button className="main-button" variant="default">
+                Try it for free
               </Button>
             </div>
           </div>
         </nav>
       </header>
-      <hr />
+      <Hero />
       <Outlet />
       <TanStackRouterDevtools />
     </>
