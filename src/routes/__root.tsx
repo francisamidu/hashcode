@@ -64,7 +64,7 @@ const Index = () => {
       </header>
       <Hero />
       <Outlet />
-      <TanStackRouterDevtools />
+      <TanStackRouterDevtools initialIsOpen={false} />
     </>
   )
 }

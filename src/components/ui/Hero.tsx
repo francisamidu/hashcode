@@ -2,8 +2,8 @@ import React from 'react'
 import { motion } from 'motion/react'
 import { fadeInUp } from '@/shared/transitions'
 import dashboard from '@/assets/dashboard.jpeg'
-import { Link } from '@tanstack/react-router'
 import { Button } from './button'
+import { ArrowRight } from 'lucide-react'
 
 const Hero = () => {
   return (
@@ -34,9 +34,10 @@ const Hero = () => {
           <div className="flex flex-col md:items-start items-center sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <Button
               variant="default"
-              className="main-button text-white px-8 py-5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-center w-fit"
+              className="main-button text-white px-16 py-5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-center w-36 justify-center flex"
             >
               Get Started
+              <ArrowRight className="mr-1" size={18} />
             </Button>
             <Button
               variant="outline"
