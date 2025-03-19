@@ -7,6 +7,7 @@ import { Sun, Moon } from 'lucide-react'
 import { useState } from 'react'
 import Pricing from '@/components/Pricing'
 import FAQSection from '@/components/FAQ'
+import CTASection from '@/components/CTA'
 
 const Index = () => {
   const [darkMode, toggleDarkMode] = useState(false)
@@ -69,6 +70,7 @@ const Index = () => {
       <Features />
       <Pricing />
       <FAQSection />
+      <CTASection />
       <Outlet />
       <TanStackRouterDevtools initialIsOpen={false} />
     </>
