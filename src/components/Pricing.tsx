@@ -2,7 +2,7 @@
 
 import type React from 'react'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'motion/react'
 import {
   Zap,
@@ -42,7 +42,7 @@ export default function PricingSection() {
     () => [
       {
         name: 'Starter',
-        price: 'KES 0',
+        price: 'Free',
         period: 'Forever',
         description: 'Perfect for testing and small businesses',
         features: [
@@ -70,8 +70,8 @@ export default function PricingSection() {
       },
       {
         name: 'Pro',
-        price: isAnnual ? 'KES 490' : 'KES 49',
-        period: isAnnual ? 'billed annually' : 'per month',
+        price: 'KES 49',
+        period: 'per month',
         description: 'For growing businesses with regular needs',
         features: [
           {
@@ -158,6 +158,10 @@ export default function PricingSection() {
     }
   }
 
+  useEffect(() => {
+    console.log(isAnnual)
+  }, [isAnnual])
+
   return (
     <section className="py-20 bg-gradient-to-b from-white to-indigo-50">
       <div className="container mx-auto px-4">
@@ -215,7 +219,6 @@ export default function PricingSection() {
           viewport={{ once: true }}
         >
           {pricingTiers.map((tier, _index) => {
-            console.log(tier.name, tier.cta)
             return (
               <motion.div
                 key={tier.name}
@@ -239,11 +242,19 @@ export default function PricingSection() {
                   </h3>
                   <div className="flex justify-between items-baseline mb-6">
                     <span className="text-4xl font-bold text-gray-900">
-                      {tier.price}
+                      {tier.name == 'Pro'
+                        ? isAnnual
+                          ? 'KES 490'
+                          : 'KES 49'
+                        : tier.price}
                     </span>
                     {tier.period && (
                       <span className="ml-2 text-gray-500 text-sm">
-                        {tier.period}
+                        {tier.name == 'Pro'
+                          ? isAnnual
+                            ? 'billed annually'
+                            : 'per month'
+                          : tier.price}
                       </span>
                     )}
                   </div>
