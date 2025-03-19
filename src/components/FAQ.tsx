@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { ChevronDown, HelpCircle } from 'lucide-react'
+import { ChevronDown, HelpCircle, MailIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from './ui/button'
 import Highlight from './Highlight'
@@ -119,7 +119,8 @@ export default function FAQSection() {
           <p className="text-gray-600 mb-6">
             Still have questions? We're here to help.
           </p>
-          <Button className="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
+          <Button className="inline-flex items-center px-6 py-3 main-button text-white font-medium rounded-lg transition-colors">
+            <MailIcon />
             Contact Support
           </Button>
         </div>
