@@ -8,6 +8,7 @@ import { useState } from 'react'
 import Pricing from '@/components/Pricing'
 import FAQSection from '@/components/FAQ'
 import CTASection from '@/components/CTA'
+import Footer from '@/components/Footer'
 
 const Index = () => {
   const [darkMode, toggleDarkMode] = useState(false)
@@ -71,6 +72,7 @@ const Index = () => {
       <Pricing />
       <FAQSection />
       <CTASection />
+      <Footer />
       <Outlet />
       <TanStackRouterDevtools initialIsOpen={false} />
     </>
