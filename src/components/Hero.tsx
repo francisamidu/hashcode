@@ -2,8 +2,9 @@ import React from 'react'
 import { motion } from 'motion/react'
 import { fadeInUp } from '@/shared/transitions'
 import dashboard from '@/assets/dashboard.jpeg'
-import { Button } from './button'
+import { Button } from './ui/button'
 import { ArrowRight } from 'lucide-react'
+import Highlight from './Highlight'
 
 const Hero = () => {
   return (
@@ -15,9 +16,7 @@ const Hero = () => {
           animate="visible"
           variants={fadeInUp}
         >
-          <span className="inline-block py-1 px-3 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 md:self-start self-center">
-            Launching Soon
-          </span>
+          <Highlight text="Launching soon" />
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight md:text-left text-center">
             <span className="text-gray-800 dark:text-white">
               Painless M-Pesa

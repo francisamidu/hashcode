@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
-import Hero from '@/components/ui/Hero'
+import Hero from '@/components/Hero'
+import Features from '@/components/Features'
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { Sun, Moon } from 'lucide-react'
@@ -63,6 +64,7 @@ const Index = () => {
         </nav>
       </header>
       <Hero />
+      <Features />
       <Outlet />
       <TanStackRouterDevtools initialIsOpen={false} />
     </>
