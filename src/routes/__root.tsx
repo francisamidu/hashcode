@@ -5,6 +5,7 @@ import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { Sun, Moon } from 'lucide-react'
 import { useState } from 'react'
+import Pricing from '@/components/Pricing'
 
 const Index = () => {
   const [darkMode, toggleDarkMode] = useState(false)
@@ -65,6 +66,7 @@ const Index = () => {
       </header>
       <Hero />
       <Features />
+      <Pricing />
       <Outlet />
       <TanStackRouterDevtools initialIsOpen={false} />
     </>

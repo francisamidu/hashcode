@@ -139,3 +139,7 @@ body {
 .main-button {
   @apply bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700;
 }
+
+button:hover {
+  cursor: pointer;
+}

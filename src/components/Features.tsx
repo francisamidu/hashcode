@@ -4,6 +4,7 @@ import React from 'react'
 import { motion } from 'motion/react'
 import Highlight from './Highlight'
 import { RefreshCw, Search, Lock } from 'lucide-react' // Importing icons from lucide-react
+import SectionHeading from './SectionHeading'
 
 const features = [
   {
@@ -32,12 +33,10 @@ const Features: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <Highlight text="Features" />
-          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            Everything you need to{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-indigo-600">
-              unlock payment clarity
-            </span>
-          </p>
+          <SectionHeading
+            textNormal="Everything you need to"
+            textStripped="unlock payment clarity"
+          />
           <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
             Our API provides all the tools you need to transform hashes into
             clear numbers, enhancing your business's financial transparency.
