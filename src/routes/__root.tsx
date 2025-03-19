@@ -6,6 +6,7 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { Sun, Moon } from 'lucide-react'
 import { useState } from 'react'
 import Pricing from '@/components/Pricing'
+import FAQSection from '@/components/FAQ'
 
 const Index = () => {
   const [darkMode, toggleDarkMode] = useState(false)
@@ -67,6 +68,7 @@ const Index = () => {
       <Hero />
       <Features />
       <Pricing />
+      <FAQSection />
       <Outlet />
       <TanStackRouterDevtools initialIsOpen={false} />
     </>
