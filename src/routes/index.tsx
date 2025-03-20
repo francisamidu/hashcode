@@ -7,13 +7,11 @@ import Features from '@/components/Features'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
-import CustomScroll from '@/components/Scrollbar'
 import Pricing from '@/components/Pricing'
 
 const Home = () => {
   return (
     <>
-      {/* <CustomScroll> */}
       <Header />
       <Hero />
       <Features />
@@ -21,9 +19,7 @@ const Home = () => {
       <FAQSection />
       <CTASection />
       <Footer />
-
       <BackToTop />
-      {/* </CustomScroll> */}
     </>
   )
 }
