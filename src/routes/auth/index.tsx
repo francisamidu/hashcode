@@ -1,3 +1,4 @@
+import AltFooter from '@/components/AltFooter'
 import AuthNavbar from '@/components/AuthNavbar'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 
@@ -5,7 +6,10 @@ const Index = () => {
   return (
     <>
       <AuthNavbar />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
+      <AltFooter />
     </>
   )
 }
