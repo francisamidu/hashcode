@@ -1,11 +1,11 @@
+import AuthNavbar from '@/components/AuthNavbar'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
 const Index = () => {
   return (
     <>
+      <AuthNavbar />
       <Outlet />
-      <TanStackRouterDevtools initialIsOpen={false} />
     </>
   )
 }

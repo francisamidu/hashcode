@@ -2,6 +2,7 @@ import { Sun, Moon } from 'lucide-react'
 import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { Link } from '@tanstack/react-router'
+import Logo from './Logo'
 
 const Header = () => {
   const [darkMode, toggleDarkMode] = useState(false)
@@ -11,14 +12,8 @@ const Header = () => {
       <nav className="container mx-auto p-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <Link
-              to="/"
-              className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600 font-bold text-2xl flex items-center"
-            >
-              <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg mr-2 flex items-center justify-center">
-                <span className="text-white text-xs">HC</span>
-              </div>
-              Hashcode
+            <Link to="/" className="flex items-center">
+              <Logo />
             </Link>
             <div className="hidden md:flex ml-10 space-x-8">
               <Link
