@@ -1,3 +1,17 @@
-<svg width="410" height="410" viewBox="0 0 410 410" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M205 410C318.218 410 410 318.218 410 205C410 91.7816 318.218 0 205 0C91.7816 0 0 91.7816 0 205C0 318.218 91.7816 410 205 410ZM205 360C290.604 360 360 290.604 360 205C360 119.396 290.604 50 205 50C119.396 50 50 119.396 50 205C50 290.604 119.396 360 205 360Z" fill="#4F46E5" />
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="32" height="32"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" classname="mr-2">
+        <rect width="32" height="32" rx="6" fill="url(#grad)"></rect>
+        <g transform="translate(8,8)">
+          <rect x="0" y="0" width="8" height="8" rx="1" fill="white"></rect>
+          <rect x="10" y="0" width="8" height="8" rx="1" fill="white"></rect>
+          <rect x="0" y="10" width="8" height="8" rx="1" fill="white"></rect>
+          <rect x="10" y="10" width="8" height="8" rx="1" fill="white"></rect>
+        </g>
+        <defs>
+          <linearGradient id="SvgjsLinearGradient1001" x1="0" y1="0" x2="1" y2="1" gradientUnits="userSpaceOnUse">
+            <stop stopcolor="#6366F1"></stop>
+            <stop offset="1" stopcolor="#9333EA"></stop>
+          </linearGradient>
+        </defs>
+      </svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: none; } }
+</style></svg>
