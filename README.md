@@ -1,80 +1,30 @@
-![reactjs-vite-tailwindcss-boilerplate](https://user-images.githubusercontent.com/16243531/217138979-b854309c-4742-4275-a705-f9fec5158217.jpg)
+# Hashcode - M-Pesa Hash Decoding API
 
-# React Tailwindcss Boilerplate build with Vite
+Transform M-Pesa MSISDN hashes into clear phone numbers effortlessly. **Hashcode** is a powerful API designed to provide businesses with transparent payment records by decoding hashed phone numbers.
 
-This is a boilerplate build with Vite, React 18, TypeScript, Vitest, Testing Library, TailwindCSS 3, Eslint and Prettier.
+## 🚀 Features
 
-## What is inside?
+This project is built using modern tools to ensure performance, scalability, and security:
 
-This project uses many tools like:
+- ⚡ **Vite** - Fast build tool for modern web projects
+- ⚛ **React 18** - A declarative, efficient, and flexible JavaScript library
+- 📜 **TypeScript** - Statically typed JavaScript for robust applications
+- 🧪 **Vitest** - Next-generation testing framework for Vite
+- 🏗 **Testing Library** - For reliable and accessible UI tests
+- 🎨 **TailwindCSS 3** - A utility-first CSS framework for rapid UI development
+- ✅ **ESLint** - Ensures code consistency and best practices
+- 🎯 **Prettier** - Auto-formats code for better readability
 
-- [Vite](https://vitejs.dev)
-- [ReactJS](https://reactjs.org)
-- [TypeScript](https://www.typescriptlang.org)
-- [Vitest](https://vitest.dev)
-- [Testing Library](https://testing-library.com)
-- [Tailwindcss](https://tailwindcss.com)
-- [Eslint](https://eslint.org)
-- [Prettier](https://prettier.io)
+## 📥 Getting Started
 
-## Getting Started
+### Installation
 
-### Install
-
-Create the project.
+Clone the repository and navigate to the project directory:
 
 ```bash
-pnpm dlx degit joaopaulomoraes/reactjs-vite-tailwindcss-boilerplate my-app
+git clone https://github.com/francisamidu/hashcode.git
+cd hashcode-api
+
+bun install
+bun run dev
 ```
-
-Access the project directory.
-
-```bash
-cd my-app
-```
-
-Install dependencies.
-
-```bash
-pnpm install
-```
-
-Serve with hot reload at <http://localhost:5173>.
-
-```bash
-pnpm run dev
-```
-
-### Lint
-
-```bash
-pnpm run lint
-```
-
-### Typecheck
-
-```bash
-pnpm run typecheck
-```
-
-### Build
-
-```bash
-pnpm run build
-```
-
-### Test
-
-```bash
-pnpm run test
-```
-
-View and interact with your tests via UI.
-
-```bash
-pnpm run test:ui
-```
-
-## License
-
-This project is licensed under the MIT License.
