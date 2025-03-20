@@ -1,9 +1,34 @@
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
-
+html {
+  scroll-behavior: smooth;
+}
 @custom-variant dark (&:is(.dark *));
-/* nunito-sans-latin-wght-normal */
+
+/* Webkit-based browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Light grey */
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #76b2f7, #c27dff); /* Gradient */
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #9013fe, #4a90e2);
+}
+
 @font-face {
   font-family: 'Nunito Sans Variable';
   font-style: normal;

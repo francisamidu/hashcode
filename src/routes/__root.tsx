@@ -8,17 +8,11 @@ import FAQSection from '@/components/FAQ'
 import CTASection from '@/components/CTA'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import BackToTop from '@/components/BackToTop'
 
 const Index = () => {
   return (
     <>
-      <Header />
-      <Hero />
-      <Features />
-      <Pricing />
-      <FAQSection />
-      <CTASection />
-      <Footer />
       <Outlet />
       <TanStackRouterDevtools initialIsOpen={false} />
     </>

@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 
-export default function CTASectionLight() {
+export default function CTASection() {
   return (
     <section
       className="bg-gradient-to-b from-white to-indigo-50 py-20 relative overflow-hidden"
