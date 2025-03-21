@@ -16,6 +16,7 @@ import { motion } from 'motion/react'
 import { Input } from '@/components/ui/input'
 import { useState, useEffect } from 'react'
 import SocialButton from '@/components/SocialButton'
+import { appTypes, benefits } from '@/shared/constants'
 
 export const Route = createFileRoute('/auth/signup')({
   component: RouteComponent
@@ -176,17 +177,11 @@ export default function RouteComponent() {
                       <SelectValue placeholder="What are you building?" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="fintech-app">Fintech App</SelectItem>
-                      <SelectItem value="payment-solution">
-                        Payment Solution
-                      </SelectItem>
-                      <SelectItem value="banking-integration">
-                        Banking Integration
-                      </SelectItem>
-                      <SelectItem value="personal-finance">
-                        Personal Finance Tool
-                      </SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
+                      {appTypes.map((appType, index) => (
+                        <SelectItem key={index} value={appType.value}>
+                          {appType.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -238,9 +233,12 @@ export default function RouteComponent() {
                   By creating a free account, you can:
                 </h2>
                 <ul className="space-y-5 mt-3 ">
-                  <BenefitItem text="Access our M-Pesa data transformation APIs, which convert hashed MSISDNs into clear phone numbers" />
-                  <BenefitItem text="Use sample data to test our decoding services in our secure sandbox environment" />
-                  <BenefitItem text="Process up to 100,000 real transaction records when you're ready to integrate with your business systems" />
+                  {benefits.map((benefit, index) => (
+                    <li className="flex items-start" key={index}>
+                      <CheckIcon className="mr-2 mt-0.5 h-4 w-4 text-indigo-400" />
+                      <span className="text-sm text-gray-600">{benefit}</span>
+                    </li>
+                  ))}
                 </ul>
                 <div className="mt-4 text-sm">
                   Have questions?{' '}
@@ -259,14 +257,5 @@ export default function RouteComponent() {
         </div>
       </main>
     </div>
-  )
-}
-
-function BenefitItem({ text }: { text: string }) {
-  return (
-    <li className="flex items-start">
-      <CheckIcon className="mr-2 mt-0.5 h-4 w-4 text-indigo-400" />
-      <span className="text-sm text-gray-600">{text}</span>
-    </li>
   )
 }
