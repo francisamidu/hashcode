@@ -1,24 +1,34 @@
 import { z } from 'zod'
 
+export const passwordSchema = z
+  .string()
+  .min(8, { message: 'Password needs to be a least 8 characters long' })
+  .max(20, { message: 'Password should to be 20 characters long maximum' })
+  .refine((password) => /[A-Z]/.test(password), {
+    message: 'Password needs to have at least 1 uppercase character'
+  })
+  .refine((password) => /[a-z]/.test(password), {
+    message: 'Password needs to have at least 1 lowercase character'
+  })
+  .refine((password) => /[0-9]/.test(password), {
+    message: 'Password needs to have at least 1 number'
+  })
+  .refine((password) => /[!@#$%^&*]/.test(password), {
+    message: 'Password needs to have at least 1 special character'
+  })
+
 export const LoginSchema = z.object({
   email: z
     .string()
     .min(1, { message: 'Email is required' })
     .email({ message: 'Invalid email address' }),
 
-  password: z
-    .string()
-    .min(8, { message: 'Password must be at least 8 characters long' })
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      {
-        message:
-          'Password must include uppercase, lowercase, number, and special character'
-      }
-    ),
+  password: passwordSchema,
 
   rememberMe: z.boolean().optional().default(false)
 })
+
+export type LoginSchemaType = z.infer<typeof LoginSchema>
 
 export const SignupSchema = z.object({
   firstName: z

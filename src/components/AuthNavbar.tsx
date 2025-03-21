@@ -40,10 +40,6 @@ export default function AuthNavbar() {
               Signup
             </Link>
           )}
-          <Button variant="outline" size="sm" className="text-sm font-medium">
-            Get API keys
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
         </div>
       </div>
     </header>
