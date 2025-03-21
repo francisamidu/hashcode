@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Link, useLocation } from '@tanstack/react-router'
 import { DashboardLink } from '@/types/dashboard'
 import Logo from '../Logo'
+import UserCard from './UserCard'
 
 const Sidebar = () => {
   const pathname = useLocation().pathname
@@ -73,8 +74,13 @@ const Sidebar = () => {
 
   return (
     <aside className="hidden w-64 flex-col border-r border-gray-200 bg-white p-4 md:flex fixed left-0 top-0">
-      <div className="mb-8 flex items-center">
-        <Logo />
+      <div className="mb-2 flex items-center">
+        <Link to="..">
+          <Logo />
+        </Link>
+      </div>
+      <div className="hover:cursor-pointer my-2">
+        <UserCard username="Francis" transactionCount={10} />
       </div>
 
       <div className="space-y-6 flex-1">

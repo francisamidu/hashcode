@@ -5,3 +5,9 @@ export interface DashboardLink {
   text: string
   badge?: string
 }
+
+export interface UserCardProps {
+  username: string
+  transactionCount: number
+  onClick?: () => void
+}
