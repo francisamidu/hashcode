@@ -26,7 +26,7 @@ const Sidebar = () => {
       text: 'Home'
     },
     {
-      active: pathname === '/dashboard/Decode',
+      active: pathname === '/dashboard/decode',
       icon: <LockOpen size={18} />,
       to: '/dashboard/decode',
       text: 'Decode Hash',
