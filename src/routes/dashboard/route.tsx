@@ -1,8 +1,10 @@
 import Sidebar from '@/components/dashboard/Sidebar'
+import NotFound from '@/components/NotFound'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard')({
-  component: RouteComponent
+  component: RouteComponent,
+  notFoundComponent: NotFound
 })
 
 function RouteComponent() {

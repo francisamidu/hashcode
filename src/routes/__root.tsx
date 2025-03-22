@@ -1,3 +1,4 @@
+import NotFound from '@/components/NotFound'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
@@ -11,7 +12,8 @@ const Index = () => {
 }
 
 export const Route = createRootRoute({
-  component: Index
+  component: Index,
+  notFoundComponent: NotFound
 })
 
 export default Index
