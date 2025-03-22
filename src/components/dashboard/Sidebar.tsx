@@ -1,5 +1,5 @@
 import {
-  LayoutDashboard,
+  Home,
   FileText,
   BarChart3,
   Users,
@@ -20,9 +20,9 @@ const Sidebar = () => {
   const mainRoutes: DashboardLink[] = [
     {
       active: pathname === '/dashboard',
-      icon: <LayoutDashboard size={18} />,
+      icon: <Home size={18} />,
       to: '/dashboard',
-      text: 'Overview'
+      text: 'Home'
     },
     {
       active: pathname === '/dashboard/transactions',
