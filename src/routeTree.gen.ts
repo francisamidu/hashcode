@@ -21,6 +21,7 @@ import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as AuthIndexImport } from './routes/auth/index'
 import { Route as DashboardSettingsImport } from './routes/dashboard/Settings'
 import { Route as DashboardProfileImport } from './routes/dashboard/Profile'
+import { Route as DashboardHelpImport } from './routes/dashboard/Help'
 import { Route as DashboardDocumentationImport } from './routes/dashboard/Documentation'
 import { Route as DashboardDecodeImport } from './routes/dashboard/Decode'
 import { Route as DashboardBillingImport } from './routes/dashboard/Billing'
@@ -88,6 +89,12 @@ const DashboardSettingsRoute = DashboardSettingsImport.update({
 const DashboardProfileRoute = DashboardProfileImport.update({
   id: '/Profile',
   path: '/Profile',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardHelpRoute = DashboardHelpImport.update({
+  id: '/Help',
+  path: '/Help',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 
@@ -228,6 +235,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardDocumentationImport
       parentRoute: typeof DashboardRouteImport
     }
+    '/dashboard/Help': {
+      id: '/dashboard/Help'
+      path: '/Help'
+      fullPath: '/dashboard/Help'
+      preLoaderRoute: typeof DashboardHelpImport
+      parentRoute: typeof DashboardRouteImport
+    }
     '/dashboard/Profile': {
       id: '/dashboard/Profile'
       path: '/Profile'
@@ -267,6 +281,7 @@ interface DashboardRouteRouteChildren {
   DashboardBillingRoute: typeof DashboardBillingRoute
   DashboardDecodeRoute: typeof DashboardDecodeRoute
   DashboardDocumentationRoute: typeof DashboardDocumentationRoute
+  DashboardHelpRoute: typeof DashboardHelpRoute
   DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardSettingsRoute: typeof DashboardSettingsRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
@@ -278,6 +293,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardBillingRoute: DashboardBillingRoute,
   DashboardDecodeRoute: DashboardDecodeRoute,
   DashboardDocumentationRoute: DashboardDocumentationRoute,
+  DashboardHelpRoute: DashboardHelpRoute,
   DashboardProfileRoute: DashboardProfileRoute,
   DashboardSettingsRoute: DashboardSettingsRoute,
   DashboardIndexRoute: DashboardIndexRoute,
@@ -301,6 +317,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/Billing': typeof DashboardBillingRoute
   '/dashboard/Decode': typeof DashboardDecodeRoute
   '/dashboard/Documentation': typeof DashboardDocumentationRoute
+  '/dashboard/Help': typeof DashboardHelpRoute
   '/dashboard/Profile': typeof DashboardProfileRoute
   '/dashboard/Settings': typeof DashboardSettingsRoute
   '/auth': typeof AuthIndexRoute
@@ -320,6 +337,7 @@ export interface FileRoutesByTo {
   '/dashboard/Billing': typeof DashboardBillingRoute
   '/dashboard/Decode': typeof DashboardDecodeRoute
   '/dashboard/Documentation': typeof DashboardDocumentationRoute
+  '/dashboard/Help': typeof DashboardHelpRoute
   '/dashboard/Profile': typeof DashboardProfileRoute
   '/dashboard/Settings': typeof DashboardSettingsRoute
   '/auth': typeof AuthIndexRoute
@@ -341,6 +359,7 @@ export interface FileRoutesById {
   '/dashboard/Billing': typeof DashboardBillingRoute
   '/dashboard/Decode': typeof DashboardDecodeRoute
   '/dashboard/Documentation': typeof DashboardDocumentationRoute
+  '/dashboard/Help': typeof DashboardHelpRoute
   '/dashboard/Profile': typeof DashboardProfileRoute
   '/dashboard/Settings': typeof DashboardSettingsRoute
   '/auth/': typeof AuthIndexRoute
@@ -363,6 +382,7 @@ export interface FileRouteTypes {
     | '/dashboard/Billing'
     | '/dashboard/Decode'
     | '/dashboard/Documentation'
+    | '/dashboard/Help'
     | '/dashboard/Profile'
     | '/dashboard/Settings'
     | '/auth'
@@ -381,6 +401,7 @@ export interface FileRouteTypes {
     | '/dashboard/Billing'
     | '/dashboard/Decode'
     | '/dashboard/Documentation'
+    | '/dashboard/Help'
     | '/dashboard/Profile'
     | '/dashboard/Settings'
     | '/auth'
@@ -400,6 +421,7 @@ export interface FileRouteTypes {
     | '/dashboard/Billing'
     | '/dashboard/Decode'
     | '/dashboard/Documentation'
+    | '/dashboard/Help'
     | '/dashboard/Profile'
     | '/dashboard/Settings'
     | '/auth/'
@@ -463,6 +485,7 @@ export const routeTree = rootRoute
         "/dashboard/Billing",
         "/dashboard/Decode",
         "/dashboard/Documentation",
+        "/dashboard/Help",
         "/dashboard/Profile",
         "/dashboard/Settings",
         "/dashboard/"
@@ -504,6 +527,10 @@ export const routeTree = rootRoute
     },
     "/dashboard/Documentation": {
       "filePath": "dashboard/Documentation.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/Help": {
+      "filePath": "dashboard/Help.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/Profile": {

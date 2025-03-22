@@ -61,7 +61,7 @@ function RouteComponent() {
         <Card className="col-span-3 md:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-base font-medium">
-              Transaction Volume
+              Decoding Volume
             </CardTitle>
             <Button
               variant="ghost"

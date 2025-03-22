@@ -21,14 +21,14 @@ export function StatsCard({
 
   return (
     <Card>
-      <CardContent className="p-6">
+      <CardContent className="py-2 px-6">
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium text-gray-500">{title}</p>
           {icon}
         </div>
-        <div className="mt-3">
+        <div className="mt-4">
           <p className="text-2xl font-bold">{value}</p>
-          <div className="mt-1 flex items-center text-xs">
+          <div className="mt-2 flex items-center text-xs">
             <span
               className={`flex items-center ${isPositive ? 'text-green-600' : 'text-red-600'}`}
             >
