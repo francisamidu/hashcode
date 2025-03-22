@@ -26,6 +26,7 @@ import { Route as DashboardDocumentationImport } from './routes/dashboard/Docume
 import { Route as DashboardDecodeImport } from './routes/dashboard/Decode'
 import { Route as DashboardBillingImport } from './routes/dashboard/Billing'
 import { Route as DashboardApiUsageImport } from './routes/dashboard/Api-Usage'
+import { Route as DashboardApiKeysImport } from './routes/dashboard/Api-Keys'
 import { Route as DashboardAnalyticsImport } from './routes/dashboard/Analytics'
 import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthLoginImport } from './routes/auth/login'
@@ -122,6 +123,12 @@ const DashboardApiUsageRoute = DashboardApiUsageImport.update({
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 
+const DashboardApiKeysRoute = DashboardApiKeysImport.update({
+  id: '/Api-Keys',
+  path: '/Api-Keys',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
 const DashboardAnalyticsRoute = DashboardAnalyticsImport.update({
   id: '/Analytics',
   path: '/Analytics',
@@ -207,6 +214,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAnalyticsImport
       parentRoute: typeof DashboardRouteImport
     }
+    '/dashboard/Api-Keys': {
+      id: '/dashboard/Api-Keys'
+      path: '/Api-Keys'
+      fullPath: '/dashboard/Api-Keys'
+      preLoaderRoute: typeof DashboardApiKeysImport
+      parentRoute: typeof DashboardRouteImport
+    }
     '/dashboard/Api-Usage': {
       id: '/dashboard/Api-Usage'
       path: '/Api-Usage'
@@ -277,6 +291,7 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteRouteChildren {
   DashboardAnalyticsRoute: typeof DashboardAnalyticsRoute
+  DashboardApiKeysRoute: typeof DashboardApiKeysRoute
   DashboardApiUsageRoute: typeof DashboardApiUsageRoute
   DashboardBillingRoute: typeof DashboardBillingRoute
   DashboardDecodeRoute: typeof DashboardDecodeRoute
@@ -289,6 +304,7 @@ interface DashboardRouteRouteChildren {
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardAnalyticsRoute: DashboardAnalyticsRoute,
+  DashboardApiKeysRoute: DashboardApiKeysRoute,
   DashboardApiUsageRoute: DashboardApiUsageRoute,
   DashboardBillingRoute: DashboardBillingRoute,
   DashboardDecodeRoute: DashboardDecodeRoute,
@@ -313,6 +329,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/Api-Keys': typeof DashboardApiKeysRoute
   '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
   '/dashboard/Billing': typeof DashboardBillingRoute
   '/dashboard/Decode': typeof DashboardDecodeRoute
@@ -333,6 +350,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/Api-Keys': typeof DashboardApiKeysRoute
   '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
   '/dashboard/Billing': typeof DashboardBillingRoute
   '/dashboard/Decode': typeof DashboardDecodeRoute
@@ -355,6 +373,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/Api-Keys': typeof DashboardApiKeysRoute
   '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
   '/dashboard/Billing': typeof DashboardBillingRoute
   '/dashboard/Decode': typeof DashboardDecodeRoute
@@ -378,6 +397,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/Analytics'
+    | '/dashboard/Api-Keys'
     | '/dashboard/Api-Usage'
     | '/dashboard/Billing'
     | '/dashboard/Decode'
@@ -397,6 +417,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/Analytics'
+    | '/dashboard/Api-Keys'
     | '/dashboard/Api-Usage'
     | '/dashboard/Billing'
     | '/dashboard/Decode'
@@ -417,6 +438,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/Analytics'
+    | '/dashboard/Api-Keys'
     | '/dashboard/Api-Usage'
     | '/dashboard/Billing'
     | '/dashboard/Decode'
@@ -481,6 +503,7 @@ export const routeTree = rootRoute
       "filePath": "dashboard/route.tsx",
       "children": [
         "/dashboard/Analytics",
+        "/dashboard/Api-Keys",
         "/dashboard/Api-Usage",
         "/dashboard/Billing",
         "/dashboard/Decode",
@@ -511,6 +534,10 @@ export const routeTree = rootRoute
     },
     "/dashboard/Analytics": {
       "filePath": "dashboard/Analytics.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/Api-Keys": {
+      "filePath": "dashboard/Api-Keys.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/Api-Usage": {

@@ -7,7 +7,8 @@ import {
   HelpCircle,
   Settings,
   LockOpen,
-  FileText
+  FileText,
+  Key
 } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Link, useLocation } from '@tanstack/react-router'
@@ -43,6 +44,12 @@ const Sidebar = () => {
       icon: <FileText size={18} />,
       to: '/dashboard/documentation',
       text: 'Documentation'
+    },
+    {
+      active: pathname === '/dashboard/api-keys',
+      icon: <Key size={18} />,
+      to: '/dashboard/api-keys',
+      text: 'API Keys'
     },
     {
       active: pathname === '/dashboard/api-usage',
