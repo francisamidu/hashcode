@@ -19,7 +19,11 @@ import { Route as DashboardRouteImport } from './routes/dashboard/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as AuthIndexImport } from './routes/auth/index'
-import { Route as DashboardTransactionsImport } from './routes/dashboard/Transactions'
+import { Route as DashboardSettingsImport } from './routes/dashboard/Settings'
+import { Route as DashboardProfileImport } from './routes/dashboard/Profile'
+import { Route as DashboardDocumentationImport } from './routes/dashboard/Documentation'
+import { Route as DashboardDecodeImport } from './routes/dashboard/Decode'
+import { Route as DashboardApiUsageImport } from './routes/dashboard/Api-Usage'
 import { Route as DashboardAnalyticsImport } from './routes/dashboard/Analytics'
 import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthLoginImport } from './routes/auth/login'
@@ -74,9 +78,33 @@ const AuthIndexRoute = AuthIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardTransactionsRoute = DashboardTransactionsImport.update({
-  id: '/Transactions',
-  path: '/Transactions',
+const DashboardSettingsRoute = DashboardSettingsImport.update({
+  id: '/Settings',
+  path: '/Settings',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardProfileRoute = DashboardProfileImport.update({
+  id: '/Profile',
+  path: '/Profile',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardDocumentationRoute = DashboardDocumentationImport.update({
+  id: '/Documentation',
+  path: '/Documentation',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardDecodeRoute = DashboardDecodeImport.update({
+  id: '/Decode',
+  path: '/Decode',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardApiUsageRoute = DashboardApiUsageImport.update({
+  id: '/Api-Usage',
+  path: '/Api-Usage',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 
@@ -165,11 +193,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAnalyticsImport
       parentRoute: typeof DashboardRouteImport
     }
-    '/dashboard/Transactions': {
-      id: '/dashboard/Transactions'
-      path: '/Transactions'
-      fullPath: '/dashboard/Transactions'
-      preLoaderRoute: typeof DashboardTransactionsImport
+    '/dashboard/Api-Usage': {
+      id: '/dashboard/Api-Usage'
+      path: '/Api-Usage'
+      fullPath: '/dashboard/Api-Usage'
+      preLoaderRoute: typeof DashboardApiUsageImport
+      parentRoute: typeof DashboardRouteImport
+    }
+    '/dashboard/Decode': {
+      id: '/dashboard/Decode'
+      path: '/Decode'
+      fullPath: '/dashboard/Decode'
+      preLoaderRoute: typeof DashboardDecodeImport
+      parentRoute: typeof DashboardRouteImport
+    }
+    '/dashboard/Documentation': {
+      id: '/dashboard/Documentation'
+      path: '/Documentation'
+      fullPath: '/dashboard/Documentation'
+      preLoaderRoute: typeof DashboardDocumentationImport
+      parentRoute: typeof DashboardRouteImport
+    }
+    '/dashboard/Profile': {
+      id: '/dashboard/Profile'
+      path: '/Profile'
+      fullPath: '/dashboard/Profile'
+      preLoaderRoute: typeof DashboardProfileImport
+      parentRoute: typeof DashboardRouteImport
+    }
+    '/dashboard/Settings': {
+      id: '/dashboard/Settings'
+      path: '/Settings'
+      fullPath: '/dashboard/Settings'
+      preLoaderRoute: typeof DashboardSettingsImport
       parentRoute: typeof DashboardRouteImport
     }
     '/auth/': {
@@ -193,13 +249,21 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteRouteChildren {
   DashboardAnalyticsRoute: typeof DashboardAnalyticsRoute
-  DashboardTransactionsRoute: typeof DashboardTransactionsRoute
+  DashboardApiUsageRoute: typeof DashboardApiUsageRoute
+  DashboardDecodeRoute: typeof DashboardDecodeRoute
+  DashboardDocumentationRoute: typeof DashboardDocumentationRoute
+  DashboardProfileRoute: typeof DashboardProfileRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardAnalyticsRoute: DashboardAnalyticsRoute,
-  DashboardTransactionsRoute: DashboardTransactionsRoute,
+  DashboardApiUsageRoute: DashboardApiUsageRoute,
+  DashboardDecodeRoute: DashboardDecodeRoute,
+  DashboardDocumentationRoute: DashboardDocumentationRoute,
+  DashboardProfileRoute: DashboardProfileRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
@@ -217,7 +281,11 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
-  '/dashboard/Transactions': typeof DashboardTransactionsRoute
+  '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
+  '/dashboard/Decode': typeof DashboardDecodeRoute
+  '/dashboard/Documentation': typeof DashboardDocumentationRoute
+  '/dashboard/Profile': typeof DashboardProfileRoute
+  '/dashboard/Settings': typeof DashboardSettingsRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
@@ -231,7 +299,11 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
-  '/dashboard/Transactions': typeof DashboardTransactionsRoute
+  '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
+  '/dashboard/Decode': typeof DashboardDecodeRoute
+  '/dashboard/Documentation': typeof DashboardDocumentationRoute
+  '/dashboard/Profile': typeof DashboardProfileRoute
+  '/dashboard/Settings': typeof DashboardSettingsRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard': typeof DashboardIndexRoute
 }
@@ -247,7 +319,11 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
-  '/dashboard/Transactions': typeof DashboardTransactionsRoute
+  '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
+  '/dashboard/Decode': typeof DashboardDecodeRoute
+  '/dashboard/Documentation': typeof DashboardDocumentationRoute
+  '/dashboard/Profile': typeof DashboardProfileRoute
+  '/dashboard/Settings': typeof DashboardSettingsRoute
   '/auth/': typeof AuthIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
@@ -264,7 +340,11 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/Analytics'
-    | '/dashboard/Transactions'
+    | '/dashboard/Api-Usage'
+    | '/dashboard/Decode'
+    | '/dashboard/Documentation'
+    | '/dashboard/Profile'
+    | '/dashboard/Settings'
     | '/auth'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
@@ -277,7 +357,11 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/Analytics'
-    | '/dashboard/Transactions'
+    | '/dashboard/Api-Usage'
+    | '/dashboard/Decode'
+    | '/dashboard/Documentation'
+    | '/dashboard/Profile'
+    | '/dashboard/Settings'
     | '/auth'
     | '/dashboard'
   id:
@@ -291,7 +375,11 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/Analytics'
-    | '/dashboard/Transactions'
+    | '/dashboard/Api-Usage'
+    | '/dashboard/Decode'
+    | '/dashboard/Documentation'
+    | '/dashboard/Profile'
+    | '/dashboard/Settings'
     | '/auth/'
     | '/dashboard/'
   fileRoutesById: FileRoutesById
@@ -349,7 +437,11 @@ export const routeTree = rootRoute
       "filePath": "dashboard/route.tsx",
       "children": [
         "/dashboard/Analytics",
-        "/dashboard/Transactions",
+        "/dashboard/Api-Usage",
+        "/dashboard/Decode",
+        "/dashboard/Documentation",
+        "/dashboard/Profile",
+        "/dashboard/Settings",
         "/dashboard/"
       ]
     },
@@ -375,8 +467,24 @@ export const routeTree = rootRoute
       "filePath": "dashboard/Analytics.tsx",
       "parent": "/dashboard"
     },
-    "/dashboard/Transactions": {
-      "filePath": "dashboard/Transactions.tsx",
+    "/dashboard/Api-Usage": {
+      "filePath": "dashboard/Api-Usage.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/Decode": {
+      "filePath": "dashboard/Decode.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/Documentation": {
+      "filePath": "dashboard/Documentation.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/Profile": {
+      "filePath": "dashboard/Profile.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/Settings": {
+      "filePath": "dashboard/Settings.tsx",
       "parent": "/dashboard"
     },
     "/auth/": {

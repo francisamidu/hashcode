@@ -1,12 +1,13 @@
 import {
   Home,
-  FileText,
   BarChart3,
   Users,
   Database,
   CreditCard,
   HelpCircle,
-  Settings
+  Settings,
+  LockOpen,
+  FileText
 } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Link, useLocation } from '@tanstack/react-router'
@@ -25,10 +26,10 @@ const Sidebar = () => {
       text: 'Home'
     },
     {
-      active: pathname === '/dashboard/transactions',
-      icon: <FileText size={18} />,
-      to: '/dashboard/transactions',
-      text: 'Transactions',
+      active: pathname === '/dashboard/Decode',
+      icon: <LockOpen size={18} />,
+      to: '/dashboard/Decode',
+      text: 'Decode Hash',
       badge: '24'
     },
     {
@@ -38,10 +39,10 @@ const Sidebar = () => {
       text: 'Analytics'
     },
     {
-      active: pathname === '/dashboard/customers',
-      icon: <Users size={18} />,
-      to: '/dashboard/customers',
-      text: 'Customer Management'
+      active: pathname === '/dashboard/documentation',
+      icon: <FileText size={18} />,
+      to: '/dashboard/documentation',
+      text: 'Documentation'
     },
     {
       active: pathname === '/dashboard/api-usage',
