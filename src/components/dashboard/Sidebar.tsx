@@ -28,7 +28,7 @@ const Sidebar = () => {
     {
       active: pathname === '/dashboard/Decode',
       icon: <LockOpen size={18} />,
-      to: '/dashboard/Decode',
+      to: '/dashboard/decode',
       text: 'Decode Hash',
       badge: '24'
     },
