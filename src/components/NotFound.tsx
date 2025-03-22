@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Home, ArrowLeft, Hash } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
+import Logo from './Logo'
 
 export default function NotFound() {
   const [randomHashes, setRandomHashes] = useState<string[]>([])
@@ -35,7 +36,7 @@ export default function NotFound() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gray-50 flex flex-col relative">
       {/* Background hash pattern */}
       <div className="fixed inset-0 overflow-hidden opacity-5 select-none pointer-events-none">
         <div className="absolute inset-0 flex flex-wrap content-start">
@@ -57,12 +58,7 @@ export default function NotFound() {
       {/* Header */}
       <header className="w-full py-6 px-4 sm:px-6 lg:px-8 z-10">
         <div className="flex items-center">
-          <div className="mr-2 flex h-8 w-8 items-center justify-center rounded bg-gradient-to-r from-indigo-500 to-indigo-700">
-            <span className="text-white text-xs font-bold">H</span>
-          </div>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-indigo-700 font-bold text-xl">
-            Hashcode
-          </span>
+          <Logo />
         </div>
       </header>
 
