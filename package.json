@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc --noEmit && vite build",
+    "build:lenient": "vite build",
     "serve": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
@@ -36,6 +37,7 @@
     "@tanstack/react-router": "^1.114.23",
     "@tanstack/react-table": "^8.21.2",
     "autoprefixer": "^10.4.21",
+    "axios": "^1.8.4",
     "chart.js": "^4.4.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

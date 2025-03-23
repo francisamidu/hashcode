@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
 import { motion } from 'motion/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'react-toastify'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,6 +15,9 @@ import SocialButton from '@/components/SocialButton'
 import { useAppState } from '@/state/app'
 
 import { LoginSchema, LoginSchemaType } from '@/utils/validation'
+import { useMutation } from '@tanstack/react-query'
+import { login as loginFn } from '@/api/auth'
+import { handleError } from '@/utils/handleError'
 
 export const Route = createFileRoute('/auth/login')({
   component: RouteComponent
@@ -20,6 +25,10 @@ export const Route = createFileRoute('/auth/login')({
 
 export default function RouteComponent() {
   const appName = useAppState((state) => state.appName)
+
+  const login = useMutation({
+    mutationFn: loginFn
+  })
 
   const {
     control,
@@ -35,8 +44,15 @@ export default function RouteComponent() {
   })
 
   const onSubmit: SubmitHandler<LoginSchemaType> = (data) => {
-    console.log(data)
-    console.log(errors)
+    login.mutate(data, {
+      onError: async (error) => {
+        const err = handleError(error)
+        toast.error(err.message)
+      },
+      onSuccess: async () => {
+        toast.success('Logged in')
+      }
+    })
   }
 
   return (

@@ -4,7 +4,8 @@ import { Home, ArrowLeft, Hash } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import Logo from './Logo'
 
-export default function NotFound() {
+export default function NotFound(props: any) {
+  console.log(props)
   const [randomHashes, setRandomHashes] = useState<string[]>([])
   const [decodedHash, setDecodedHash] = useState<string | null>(null)
 
