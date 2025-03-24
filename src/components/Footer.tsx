@@ -110,7 +110,7 @@ export default function Footer() {
                 <span className="text-white text-xs font-bold">H</span>
               </div>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-indigo-700 font-bold text-xl">
-                Hashcode
+                Dehash
               </span>
             </motion.div>
 
@@ -244,7 +244,7 @@ export default function Footer() {
           </div>
 
           <div className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} Hashcode Inc.
+            © {new Date().getFullYear()} Dehash Inc.
           </div>
         </motion.div>
       </div>

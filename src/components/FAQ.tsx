@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { Button } from './ui/button'
 import Highlight from './Highlight'
 import SectionHeading from './SectionHeading'
+import { useAppState } from '@/state/app'
 
 type FAQItem = {
   question: string
@@ -15,32 +16,28 @@ type FAQItem = {
 
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const appName = useAppState((state) => state.appName)
 
   const faqItems: FAQItem[] = [
     {
-      question: 'What is Hashcode and how does it work?',
-      answer:
-        'Hashcode is a specialized API service that transforms M-Pesa MSISDN (Mobile Subscriber Integrated Services Digital Network Number) hashes back into their original phone numbers. When businesses receive payment notifications from M-Pesa, the customer phone numbers are often hashed for privacy. Our service allows you to securely convert these hashes back to the original numbers, enabling you to identify customers, send payment confirmations, and maintain accurate transaction records.'
+      question: `What is ${appName} and how does it work?`,
+      answer: `${appName} is a specialized API service that transforms M-Pesa MSISDN (Mobile Subscriber Integrated Services Digital Network Number) hashes back into their original phone numbers. When businesses receive payment notifications from M-Pesa, the customer phone numbers are often hashed for privacy. Our service allows you to securely convert these hashes back to the original numbers, enabling you to identify customers, send payment confirmations, and maintain accurate transaction records.`
     },
     {
-      question: 'Is Hashcode secure and compliant with privacy regulations?',
-      answer:
-        'Yes, Hashcode is built with security and compliance as top priorities. We use bank-level encryption for all data in transit and at rest. Our service is compliant with relevant data protection regulations, including GDPR and local privacy laws. We only process the data necessary for the hash conversion and do not store phone numbers or transaction details beyond the processing period required for the service to function.'
+      question: `Is ${appName} secure and compliant with privacy regulations?`,
+      answer: `Yes, ${appName} is built with security and compliance as top priorities. We use bank-level encryption for all data in transit and at rest. Our service is compliant with relevant data protection regulations, including GDPR and local privacy laws. We only process the data necessary for the hash conversion and do not store phone numbers or transaction details beyond the processing period required for the service to function.`
     },
     {
-      question: 'How accurate is the hash to phone number conversion?',
-      answer:
-        'Hashcode provides highly accurate conversions with a success rate of over 99.9%. Our proprietary algorithms and extensive database ensure that virtually all valid M-Pesa transaction hashes can be successfully converted back to their original phone numbers. In the rare case where a conversion fails, our system provides clear error messages to help troubleshoot the issue.'
+      question: `How accurate is the hash to phone number conversion?`,
+      answer: `${appName} provides highly accurate conversions with a success rate of over 99.9%. Our proprietary algorithms and extensive database ensure that virtually all valid M-Pesa transaction hashes can be successfully converted back to their original phone numbers. In the rare case where a conversion fails, our system provides clear error messages to help troubleshoot the issue.`
     },
     {
-      question: 'How can I integrate Hashcode with my existing systems?',
-      answer:
-        'Hashcode offers a simple REST API that can be integrated with virtually any system or platform. We provide comprehensive documentation, SDKs for popular programming languages (PHP, Python, JavaScript, Java), and pre-built plugins for common e-commerce platforms. Our team is also available to assist with custom integrations for more complex systems or specific requirements.'
+      question: `How can I integrate ${appName} with my existing systems?`,
+      answer: `${appName} offers a simple REST API that can be integrated with virtually any system or platform. We provide comprehensive documentation, SDKs for popular programming languages (PHP, Python, JavaScript, Java), and pre-built plugins for common e-commerce platforms. Our team is also available to assist with custom integrations for more complex systems or specific requirements.`
     },
     {
-      question: 'What volume of hash conversions can Hashcode handle?',
-      answer:
-        "Hashcode is built on a scalable cloud infrastructure that can handle millions of conversions per day. Whether you're a small business processing a few hundred transactions monthly or a large enterprise with thousands of daily transactions, our system automatically scales to meet your needs. For extremely high-volume requirements, our Enterprise plan includes dedicated resources and custom optimizations."
+      question: `What volume of hash conversions can ${appName} handle?`,
+      answer: `${appName} is built on a scalable cloud infrastructure that can handle millions of conversions per day. Whether you're a small business processing a few hundred transactions monthly or a large enterprise with thousands of daily transactions, our system automatically scales to meet your needs. For extremely high-volume requirements, our Enterprise plan includes dedicated resources and custom optimizations.`
     }
   ]
 

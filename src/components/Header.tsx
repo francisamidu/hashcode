@@ -27,7 +27,7 @@ const Header = () => {
                 Features
               </a>
               <Link
-                to="/dashboard/Documentation"
+                to="/dashboard/documentation"
                 className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
               >
                 Documentation

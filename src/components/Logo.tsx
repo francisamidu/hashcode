@@ -10,7 +10,7 @@ export default function Logo() {
         </div>
       </div>
       <span className="text-transparent bg-gradient-to-r from-purple-600 to-indigo-500 bg-clip-text text-lg font-bold uppercase tracking-wide">
-        Hashcode
+        Dehash
       </span>
     </div>
   )

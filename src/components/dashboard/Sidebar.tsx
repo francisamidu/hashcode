@@ -40,7 +40,7 @@ const Sidebar = () => {
       text: 'Analytics'
     },
     {
-      active: pathname === '/dashboard/documentation',
+      active: pathname == '/dashboard/documentation',
       icon: <FileText size={18} />,
       to: '/dashboard/documentation',
       text: 'Documentation'
@@ -83,7 +83,7 @@ const Sidebar = () => {
   return (
     <aside className="hidden w-64 flex-col border-r border-gray-200 bg-white p-4 md:flex fixed left-0 top-0">
       <div className="mb-2 flex items-center">
-        <Link to="..">
+        <Link to="/">
           <Logo />
         </Link>
       </div>
