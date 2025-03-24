@@ -1,12 +1,16 @@
 import { Sun, Moon } from 'lucide-react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button } from './ui/button'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import Logo from './Logo'
 
 const Header = () => {
   const [darkMode, toggleDarkMode] = useState(false)
-
+  const navigate = useNavigate()
+  const goToSignup = () =>
+    navigate({
+      to: '/auth/signup'
+    })
   return (
     <header>
       <nav className="container mx-auto p-3">
@@ -16,14 +20,14 @@ const Header = () => {
               <Logo />
             </Link>
             <div className="hidden md:flex ml-10 space-x-8">
-              <Link
-                to="/features"
+              <a
+                href="#features"
                 className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
               >
                 Features
-              </Link>
+              </a>
               <Link
-                to="/documentation"
+                to="/dashboard/Documentation"
                 className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
               >
                 Documentation
@@ -48,7 +52,11 @@ const Header = () => {
                 <Moon className="h-5 w-5" />
               )}
             </Button>
-            <Button className="main-button" variant="default">
+            <Button
+              className="main-button"
+              variant="default"
+              onClick={goToSignup}
+            >
               Try it for free
             </Button>
           </div>

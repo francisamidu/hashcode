@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { CheckCircle } from 'lucide-react'
 
 // Constants - simplified for auth/legal pages

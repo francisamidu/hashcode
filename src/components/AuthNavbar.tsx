@@ -16,13 +16,6 @@ export default function AuthNavbar() {
               <Logo />
             </motion.div>
           </Link>
-          <nav className="hidden space-x-1 md:flex">
-            <NavItem text="Products" hasDropdown />
-            <NavItem text="Use cases" hasDropdown />
-            <NavItem text="Docs" hasDropdown />
-            <NavItem text="Pricing" />
-            <NavItem text="About us" hasDropdown />
-          </nav>
         </div>
         <div className="flex items-center space-x-2">
           {isSignup ? (

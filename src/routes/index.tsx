@@ -1,13 +1,15 @@
 import React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import BackToTop from '@/components/BackToTop'
-import FAQSection from '@/components/FAQ'
-import CTASection from '@/components/CTA'
-import Features from '@/components/Features'
-import Footer from '@/components/Footer'
-import Header from '@/components/Header'
-import Hero from '@/components/Hero'
-import Pricing from '@/components/Pricing'
+import { lazy } from 'react'
+
+const BackToTop = lazy(() => import('@/components/BackToTop'))
+const FAQSection = lazy(() => import('@/components/FAQ'))
+const CTASection = lazy(() => import('@/components/CTA'))
+const Features = lazy(() => import('@/components/Features'))
+const Footer = lazy(() => import('@/components/Footer'))
+const Header = lazy(() => import('@/components/Header'))
+const Hero = lazy(() => import('@/components/Hero'))
+const Pricing = lazy(() => import('@/components/Pricing'))
 
 const Home = () => {
   return (

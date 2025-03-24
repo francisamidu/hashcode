@@ -1,12 +1,18 @@
 import React from 'react'
 import { motion } from 'motion/react'
 import { fadeInUp } from '@/shared/transitions'
-import dashboard from '@/assets/dashboard.jpeg'
+import dashboard from '@/assets/dashboard.webp'
 import { Button } from './ui/button'
 import { ArrowRight } from 'lucide-react'
 import Highlight from './Highlight'
+import { useNavigate } from '@tanstack/react-router'
 
 const Hero = () => {
+  const navigate = useNavigate()
+  const goToSignup = () =>
+    navigate({
+      to: '/auth/signup'
+    })
   return (
     <section className="container mx-auto px-6 py-16 md:py-24">
       <div className="flex flex-col md:flex-row items-center">
@@ -34,6 +40,7 @@ const Hero = () => {
             <Button
               variant="default"
               className="main-button text-white px-16 py-5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-center w-36 justify-center flex"
+              onClick={goToSignup}
             >
               Get Started
               <ArrowRight className="mr-1" size={18} />
@@ -74,6 +81,7 @@ const Hero = () => {
               <img
                 src={dashboard}
                 alt="Dashboard Preview"
+                loading="lazy"
                 width={600}
                 height={400}
                 className="w-full h-auto"

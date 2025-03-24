@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "build:lenient": "vite build",
+    "build:lenient": "vite build --minify",
     "serve": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
