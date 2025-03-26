@@ -42,7 +42,6 @@ export default function RouteComponent() {
       email: '',
       password: '',
       company: '',
-      building: '',
       termsAgreed: false
     }
   })
@@ -192,40 +191,13 @@ export default function RouteComponent() {
                         <Label htmlFor="company">Company</Label>
                         <Input
                           id="company"
-                          placeholder="Company"
+                          placeholder="Company/Business name"
                           className="h-10 rounded-sm"
                           {...field}
                         />
                         {errors.company && (
                           <p className="text-red-500 text-sm">
                             {errors.company.message}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  />
-
-                  <Controller
-                    name="building"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <div className="space-y-2">
-                        <Label htmlFor="building">What are you building?</Label>
-                        <Select onValueChange={onChange} value={value}>
-                          <SelectTrigger className="h-10 rounded-sm">
-                            <SelectValue placeholder="What are you building?" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {appTypes.map((appType, index) => (
-                              <SelectItem key={index} value={appType.value}>
-                                {appType.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        {errors.building && (
-                          <p className="text-red-500 text-sm">
-                            {errors.building.message}
                           </p>
                         )}
                       </div>

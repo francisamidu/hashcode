@@ -11,7 +11,7 @@ function RouteComponent() {
   return (
     <main>
       <Sidebar />
-      <section className="ml-[260px]">
+      <section className="md-only:ml-[260px]">
         <Outlet />
       </section>
     </main>

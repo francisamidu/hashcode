@@ -66,19 +66,6 @@ export const SignupSchema = z.object({
     .max(100, { message: 'Company name must be less than 100 characters' })
     .optional(),
 
-  building: z.enum(
-    [
-      'fintech-app',
-      'payment-solution',
-      'banking-integration',
-      'personal-finance',
-      'other'
-    ],
-    {
-      errorMap: () => ({ message: 'Please select what you are building' })
-    }
-  ),
-
   termsAgreed: z.boolean().refine((val) => val === true, {
     message: 'You must agree to the terms and conditions'
   })
@@ -99,6 +86,5 @@ export const initialSignupFormState: SignupSchemaType = {
   email: '',
   password: '',
   company: '',
-  building: 'other',
   termsAgreed: false
 }
