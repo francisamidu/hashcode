@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       screens: {
-        'md-only': { max: '1023px', min: '768px' }
+        'md-only': { min: '768px', max: '1023px' }
       }
     }
   },
