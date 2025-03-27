@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as VerifyOtpImport } from './routes/verify-otp'
 import { Route as FeaturesImport } from './routes/features'
 import { Route as DocumentationImport } from './routes/documentation'
 import { Route as DevelopersImport } from './routes/developers'
@@ -32,6 +33,12 @@ import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthLoginImport } from './routes/auth/login'
 
 // Create/Update Routes
+
+const VerifyOtpRoute = VerifyOtpImport.update({
+  id: '/verify-otp',
+  path: '/verify-otp',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const FeaturesRoute = FeaturesImport.update({
   id: '/features',
@@ -193,6 +200,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeaturesImport
       parentRoute: typeof rootRoute
     }
+    '/verify-otp': {
+      id: '/verify-otp'
+      path: '/verify-otp'
+      fullPath: '/verify-otp'
+      preLoaderRoute: typeof VerifyOtpImport
+      parentRoute: typeof rootRoute
+    }
     '/auth/login': {
       id: '/auth/login'
       path: '/auth/login'
@@ -326,6 +340,7 @@ export interface FileRoutesByFullPath {
   '/developers': typeof DevelopersRoute
   '/documentation': typeof DocumentationRoute
   '/features': typeof FeaturesRoute
+  '/verify-otp': typeof VerifyOtpRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
@@ -347,6 +362,7 @@ export interface FileRoutesByTo {
   '/developers': typeof DevelopersRoute
   '/documentation': typeof DocumentationRoute
   '/features': typeof FeaturesRoute
+  '/verify-otp': typeof VerifyOtpRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
@@ -370,6 +386,7 @@ export interface FileRoutesById {
   '/developers': typeof DevelopersRoute
   '/documentation': typeof DocumentationRoute
   '/features': typeof FeaturesRoute
+  '/verify-otp': typeof VerifyOtpRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
@@ -394,6 +411,7 @@ export interface FileRouteTypes {
     | '/developers'
     | '/documentation'
     | '/features'
+    | '/verify-otp'
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/Analytics'
@@ -414,6 +432,7 @@ export interface FileRouteTypes {
     | '/developers'
     | '/documentation'
     | '/features'
+    | '/verify-otp'
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/Analytics'
@@ -435,6 +454,7 @@ export interface FileRouteTypes {
     | '/developers'
     | '/documentation'
     | '/features'
+    | '/verify-otp'
     | '/auth/login'
     | '/auth/signup'
     | '/dashboard/Analytics'
@@ -458,6 +478,7 @@ export interface RootRouteChildren {
   DevelopersRoute: typeof DevelopersRoute
   DocumentationRoute: typeof DocumentationRoute
   FeaturesRoute: typeof FeaturesRoute
+  VerifyOtpRoute: typeof VerifyOtpRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
   AuthIndexRoute: typeof AuthIndexRoute
@@ -470,6 +491,7 @@ const rootRouteChildren: RootRouteChildren = {
   DevelopersRoute: DevelopersRoute,
   DocumentationRoute: DocumentationRoute,
   FeaturesRoute: FeaturesRoute,
+  VerifyOtpRoute: VerifyOtpRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
   AuthIndexRoute: AuthIndexRoute,
@@ -491,6 +513,7 @@ export const routeTree = rootRoute
         "/developers",
         "/documentation",
         "/features",
+        "/verify-otp",
         "/auth/login",
         "/auth/signup",
         "/auth/"
@@ -525,6 +548,9 @@ export const routeTree = rootRoute
     },
     "/features": {
       "filePath": "features.tsx"
+    },
+    "/verify-otp": {
+      "filePath": "verify-otp.tsx"
     },
     "/auth/login": {
       "filePath": "auth/login.tsx"
