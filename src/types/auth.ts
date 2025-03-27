@@ -2,24 +2,27 @@
 
 import { IUserProfileRole } from './user'
 
-export interface AuthResponse {
+export interface IAuthResponse {
   accessToken: string
   refreshToken: string
   user: {
     id: string
     email: string
-    name: string
+    username: string
+    isVerified: boolean
   }
 }
 
-export interface LoginPayload {
+export interface ILoginPayload {
   email: string
   password: string
 }
 
-export interface SignupPayload {
-  name: string
+export interface ISignupPayload {
+  firstName: string
+  lastName: string
   email: string
+  businessName: string
   password: string
 }
 

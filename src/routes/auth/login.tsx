@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { motion } from 'motion/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
@@ -18,6 +17,7 @@ import { LoginSchema, LoginSchemaType } from '@/utils/validation'
 import { useMutation } from '@tanstack/react-query'
 import { login as loginFn } from '@/api/auth'
 import { handleError } from '@/utils/handleError'
+// import { useAuthStore } from '@/state/auth'
 
 export const Route = createFileRoute('/auth/login')({
   component: RouteComponent
@@ -26,15 +26,13 @@ export const Route = createFileRoute('/auth/login')({
 export default function RouteComponent() {
   const appName = useAppState((state) => state.appName)
 
+  // const { setIsAuthenticated, setUser } = useAuthStore()
+
   const login = useMutation({
     mutationFn: loginFn
   })
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting }
-  } = useForm<LoginSchemaType>({
+  const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: '',
@@ -49,7 +47,14 @@ export default function RouteComponent() {
         const err = handleError(error)
         toast.error(err.message)
       },
-      onSuccess: async () => {
+      onSuccess: async (response) => {
+        // setUser({
+        //   ...response.user,
+        //   accessToken: response.accessToken,
+        //   refreshToken: response.refreshToken,
+        //   isVerified: response.user.isVerified
+        // })
+        // setIsAuthenticated(true)
         toast.success('Logged in')
       }
     })
@@ -60,7 +65,7 @@ export default function RouteComponent() {
       <AnimatedBackground />
       <AuthNavbar />
       <main className="flex flex-1 items-center justify-center py-12">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <motion.div
             className="w-full max-w-md px-4"
             initial={{ opacity: 0, y: 20 }}
@@ -98,7 +103,6 @@ export default function RouteComponent() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              {/* Social Buttons */}
               <div className="flex flex-col items-center justify-center my-4 gap-4">
                 <SocialButton
                   className="block !rounded-sm !w-full"
@@ -112,7 +116,6 @@ export default function RouteComponent() {
                 />
               </div>
 
-              {/* Or divider */}
               <div className="relative my-4 flex items-center justify-center text-sm text-gray-500 dark:text-gray-300">
                 <span className="before:absolute before:left-0 before:w-1/4 before:border-t before:border-gray-300 before:top-1/2 before:transform before:-translate-y-1/2 dark:before:border-gray-600"></span>
                 <span className="px-4">or Continue with Email</span>
@@ -122,7 +125,7 @@ export default function RouteComponent() {
               {/* Email Field */}
               <Controller
                 name="email"
-                control={control}
+                control={form.control}
                 render={({ field }) => (
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
@@ -132,9 +135,9 @@ export default function RouteComponent() {
                       {...field}
                       className="h-10 rounded-sm"
                     />
-                    {errors.email && (
+                    {form.formState?.errors?.email && (
                       <p className="text-red-500 text-sm">
-                        {errors.email.message}
+                        {form.formState.errors.email.message}
                       </p>
                     )}
                   </div>
@@ -144,7 +147,7 @@ export default function RouteComponent() {
               {/* Password Field */}
               <Controller
                 name="password"
-                control={control}
+                control={form.control}
                 render={({ field }) => (
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
@@ -162,19 +165,18 @@ export default function RouteComponent() {
                       {...field}
                       className="h-10 rounded-sm"
                     />
-                    {errors.password && (
+                    {form.formState?.errors?.password && (
                       <p className="text-red-500 text-sm">
-                        {errors.password.message}
+                        {form.formState.errors.password.message}
                       </p>
                     )}
                   </div>
                 )}
               />
 
-              {/* Remember Me Checkbox */}
               <Controller
                 name="rememberMe"
-                control={control}
+                control={form.control}
                 render={({ field: { value, onChange } }) => (
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -194,7 +196,7 @@ export default function RouteComponent() {
                 <Button
                   className="w-full rounded-sm"
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={form.formState?.isSubmitting}
                 >
                   Log in
                 </Button>

@@ -1,28 +1,26 @@
 // src/api/auth.ts
 import axiosInstance from './axios'
-import { AuthResponse, LoginPayload, SignupPayload } from '@/types/auth'
+import { IAuthResponse, ILoginPayload, ISignupPayload } from '@/types/auth'
 
 // Login Function
 export const login = async (
-  credentials: LoginPayload
-): Promise<AuthResponse> => {
-  const { data } = await axiosInstance.post<AuthResponse>(
+  credentials: ILoginPayload
+): Promise<IAuthResponse> => {
+  const { data } = await axiosInstance.post<IAuthResponse>(
     '/auth/login',
     credentials
   )
-  localStorage.setItem('accessToken', data.accessToken)
-  localStorage.setItem('refreshToken', data.refreshToken)
   return data
 }
 
 // Signup Function
-export const signup = async (newUser: SignupPayload): Promise<AuthResponse> => {
-  const { data } = await axiosInstance.post<AuthResponse>(
+export const signup = async (
+  newUser: ISignupPayload
+): Promise<IAuthResponse> => {
+  const { data } = await axiosInstance.post<IAuthResponse>(
     '/auth/signup',
     newUser
   )
-  localStorage.setItem('accessToken', data.accessToken)
-  localStorage.setItem('refreshToken', data.refreshToken)
   return data
 }
 
