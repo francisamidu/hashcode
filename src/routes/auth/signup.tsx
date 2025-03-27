@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import AnimatedBackground from '@/components/AnimatedBackground'
@@ -8,20 +8,17 @@ import AuthNavbar from '@/components/AuthNavbar'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem
-} from '@/components/ui/select'
 import { CheckIcon } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import SocialButton from '@/components/SocialButton'
-import { appTypes, benefits } from '@/shared/constants'
+import { benefits } from '@/shared/constants'
 import { useAppState } from '@/state/app'
 
 import { SignupSchema, SignupSchemaType } from '@/utils/validation'
+import { useMutation } from '@tanstack/react-query'
+import { signup } from '@/api/auth'
+import { handleError } from '@/utils/handleError'
+import { toast } from 'react-toastify'
 
 export const Route = createFileRoute('/auth/signup')({
   component: RouteComponent
@@ -30,8 +27,14 @@ export const Route = createFileRoute('/auth/signup')({
 export default function RouteComponent() {
   const appName = useAppState((state) => state.appName)
 
+  const signupMutate = useMutation({
+    mutationFn: signup
+  })
+
+  const navigate = useNavigate()
+
   const {
-    control,
+    register,
     handleSubmit,
     formState: { errors, isSubmitting }
   } = useForm<SignupSchemaType>({
@@ -46,12 +49,15 @@ export default function RouteComponent() {
     }
   })
 
-  const onSubmit: SubmitHandler<SignupSchemaType> = async (data) => {
+  const onSubmit: SubmitHandler<SignupSchemaType> = async (
+    data: SignupSchemaType
+  ) => {
     try {
-      console.log(data)
-      // Perform signup logic here
+      navigate({
+        to: '/auth/verify-otp',
+        params: { email: data.email, verificationCode: '123456' }
+      })
     } catch (error) {
-      // Handle signup error
       console.error(error)
     }
   }
@@ -96,147 +102,104 @@ export default function RouteComponent() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <Controller
-                      name="firstName"
-                      control={control}
-                      render={({ field }) => (
-                        <div className="space-y-2">
-                          <Label htmlFor="firstName">First name</Label>
-                          <Input
-                            id="firstName"
-                            placeholder="First name"
-                            className="h-10 rounded-sm"
-                            {...field}
-                          />
-                          {errors.firstName && (
-                            <p className="text-red-500 text-sm">
-                              {errors.firstName.message}
-                            </p>
-                          )}
-                        </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">First name</Label>
+                      <Input
+                        id="firstName"
+                        placeholder="First name"
+                        className="h-10 rounded-sm"
+                        {...register('firstName')}
+                      />
+                      {errors.firstName && (
+                        <p className="text-red-500 text-sm">
+                          {errors.firstName.message}
+                        </p>
                       )}
-                    />
+                    </div>
 
-                    <Controller
-                      name="lastName"
-                      control={control}
-                      render={({ field }) => (
-                        <div className="space-y-2">
-                          <Label htmlFor="lastName">Last name</Label>
-                          <Input
-                            id="lastName"
-                            placeholder="Last name"
-                            className="h-10 rounded-sm"
-                            {...field}
-                          />
-                          {errors.lastName && (
-                            <p className="text-red-500 text-sm">
-                              {errors.lastName.message}
-                            </p>
-                          )}
-                        </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Last name</Label>
+                      <Input
+                        id="lastName"
+                        placeholder="Last name"
+                        className="h-10 rounded-sm"
+                        {...register('lastName')}
+                      />
+                      {errors.lastName && (
+                        <p className="text-red-500 text-sm">
+                          {errors.lastName.message}
+                        </p>
                       )}
-                    />
+                    </div>
                   </div>
 
-                  <Controller
-                    name="email"
-                    control={control}
-                    render={({ field }) => (
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="Email"
-                          className="h-10 rounded-sm"
-                          {...field}
-                        />
-                        {errors.email && (
-                          <p className="text-red-500 text-sm">
-                            {errors.email.message}
-                          </p>
-                        )}
-                      </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Email"
+                      className="h-10 rounded-sm"
+                      {...register('email')}
+                    />
+                    {errors.email && (
+                      <p className="text-red-500 text-sm">
+                        {errors.email.message}
+                      </p>
                     )}
-                  />
+                  </div>
 
-                  <Controller
-                    name="password"
-                    control={control}
-                    render={({ field }) => (
-                      <div className="space-y-2">
-                        <Label htmlFor="password">Password</Label>
-                        <Input
-                          id="password"
-                          type="password"
-                          placeholder="Choose a Password"
-                          className="h-10 rounded-sm"
-                          {...field}
-                        />
-                        {errors.password && (
-                          <p className="text-red-500 text-sm">
-                            {errors.password.message}
-                          </p>
-                        )}
-                      </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Choose a Password"
+                      className="h-10 rounded-sm"
+                      {...register('password')}
+                    />
+                    {errors.password && (
+                      <p className="text-red-500 text-sm">
+                        {errors.password.message}
+                      </p>
                     )}
-                  />
+                  </div>
 
-                  <Controller
-                    name="company"
-                    control={control}
-                    render={({ field }) => (
-                      <div className="space-y-2">
-                        <Label htmlFor="company">Company</Label>
-                        <Input
-                          id="company"
-                          placeholder="Company/Business name"
-                          className="h-10 rounded-sm"
-                          {...field}
-                        />
-                        {errors.company && (
-                          <p className="text-red-500 text-sm">
-                            {errors.company.message}
-                          </p>
-                        )}
-                      </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="company">Company</Label>
+                    <Input
+                      id="company"
+                      placeholder="Company/Business name"
+                      className="h-10 rounded-sm"
+                      {...register('company')}
+                    />
+                    {errors.company && (
+                      <p className="text-red-500 text-sm">
+                        {errors.company.message}
+                      </p>
                     )}
-                  />
+                  </div>
 
-                  <Controller
-                    name="termsAgreed"
-                    control={control}
-                    render={({ field: { value, onChange } }) => (
-                      <div className="flex items-start space-x-2 pt-2">
-                        <Checkbox
-                          id="terms"
-                          checked={value}
-                          onCheckedChange={onChange}
-                        />
-                        <label
-                          htmlFor="terms"
-                          className="text-xs text-gray-600"
-                        >
-                          I agree to {appName}'s{' '}
-                          <Link
-                            to="/"
-                            className="text-gray-900 underline underline-offset-2"
-                          >
-                            Terms of Use
-                          </Link>{' '}
-                          and consent to {appName}'s{' '}
-                          <Link
-                            to="/"
-                            className="text-gray-900 underline underline-offset-2"
-                          >
-                            Privacy Statement
-                          </Link>
-                          .
-                        </label>
-                      </div>
-                    )}
-                  />
+                  <div className="flex items-start space-x-2 pt-2">
+                    <Checkbox id="terms" {...register('termsAgreed')} />
+                    <label htmlFor="terms" className="text-xs text-gray-600">
+                      I agree to {appName}'s{' '}
+                      <Link
+                        to="/"
+                        className="text-gray-900 underline underline-offset-2"
+                      >
+                        Terms of Use
+                      </Link>{' '}
+                      and consent to {appName}'s{' '}
+                      <Link
+                        to="/"
+                        className="text-gray-900 underline underline-offset-2"
+                      >
+                        Privacy Statement
+                      </Link>
+                      .
+                    </label>
+                  </div>
 
                   <div>
                     <Button
