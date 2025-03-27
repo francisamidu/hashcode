@@ -29,6 +29,7 @@ import { Route as DashboardBillingImport } from './routes/dashboard/Billing'
 import { Route as DashboardApiUsageImport } from './routes/dashboard/Api-Usage'
 import { Route as DashboardApiKeysImport } from './routes/dashboard/Api-Keys'
 import { Route as DashboardAnalyticsImport } from './routes/dashboard/Analytics'
+import { Route as AuthVerifyOtpImport } from './routes/auth/verify-otp'
 import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthLoginImport } from './routes/auth/login'
 
@@ -142,6 +143,12 @@ const DashboardAnalyticsRoute = DashboardAnalyticsImport.update({
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 
+const AuthVerifyOtpRoute = AuthVerifyOtpImport.update({
+  id: '/auth/verify-otp',
+  path: '/auth/verify-otp',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AuthSignupRoute = AuthSignupImport.update({
   id: '/auth/signup',
   path: '/auth/signup',
@@ -219,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/signup'
       fullPath: '/auth/signup'
       preLoaderRoute: typeof AuthSignupImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/verify-otp': {
+      id: '/auth/verify-otp'
+      path: '/auth/verify-otp'
+      fullPath: '/auth/verify-otp'
+      preLoaderRoute: typeof AuthVerifyOtpImport
       parentRoute: typeof rootRoute
     }
     '/dashboard/Analytics': {
@@ -343,6 +357,7 @@ export interface FileRoutesByFullPath {
   '/verify-otp': typeof VerifyOtpRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/auth/verify-otp': typeof AuthVerifyOtpRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
   '/dashboard/Api-Keys': typeof DashboardApiKeysRoute
   '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
@@ -365,6 +380,7 @@ export interface FileRoutesByTo {
   '/verify-otp': typeof VerifyOtpRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/auth/verify-otp': typeof AuthVerifyOtpRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
   '/dashboard/Api-Keys': typeof DashboardApiKeysRoute
   '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
@@ -389,6 +405,7 @@ export interface FileRoutesById {
   '/verify-otp': typeof VerifyOtpRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/auth/verify-otp': typeof AuthVerifyOtpRoute
   '/dashboard/Analytics': typeof DashboardAnalyticsRoute
   '/dashboard/Api-Keys': typeof DashboardApiKeysRoute
   '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
@@ -414,6 +431,7 @@ export interface FileRouteTypes {
     | '/verify-otp'
     | '/auth/login'
     | '/auth/signup'
+    | '/auth/verify-otp'
     | '/dashboard/Analytics'
     | '/dashboard/Api-Keys'
     | '/dashboard/Api-Usage'
@@ -435,6 +453,7 @@ export interface FileRouteTypes {
     | '/verify-otp'
     | '/auth/login'
     | '/auth/signup'
+    | '/auth/verify-otp'
     | '/dashboard/Analytics'
     | '/dashboard/Api-Keys'
     | '/dashboard/Api-Usage'
@@ -457,6 +476,7 @@ export interface FileRouteTypes {
     | '/verify-otp'
     | '/auth/login'
     | '/auth/signup'
+    | '/auth/verify-otp'
     | '/dashboard/Analytics'
     | '/dashboard/Api-Keys'
     | '/dashboard/Api-Usage'
@@ -481,6 +501,7 @@ export interface RootRouteChildren {
   VerifyOtpRoute: typeof VerifyOtpRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
+  AuthVerifyOtpRoute: typeof AuthVerifyOtpRoute
   AuthIndexRoute: typeof AuthIndexRoute
 }
 
@@ -494,6 +515,7 @@ const rootRouteChildren: RootRouteChildren = {
   VerifyOtpRoute: VerifyOtpRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
+  AuthVerifyOtpRoute: AuthVerifyOtpRoute,
   AuthIndexRoute: AuthIndexRoute,
 }
 
@@ -516,6 +538,7 @@ export const routeTree = rootRoute
         "/verify-otp",
         "/auth/login",
         "/auth/signup",
+        "/auth/verify-otp",
         "/auth/"
       ]
     },
@@ -557,6 +580,9 @@ export const routeTree = rootRoute
     },
     "/auth/signup": {
       "filePath": "auth/signup.tsx"
+    },
+    "/auth/verify-otp": {
+      "filePath": "auth/verify-otp.tsx"
     },
     "/dashboard/Analytics": {
       "filePath": "dashboard/Analytics.tsx",
