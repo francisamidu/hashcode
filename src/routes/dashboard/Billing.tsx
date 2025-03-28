@@ -87,7 +87,7 @@ interface PayAsYouGo {
   currency: string
 }
 
-export const Route = createFileRoute('/dashboard/billing')({
+export const Route = createFileRoute('/dashboard/Billing')({
   component: RouteComponent
 })
 

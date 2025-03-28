@@ -19,7 +19,7 @@ import {
 } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-export const Route = createFileRoute('/dashboard/help')({
+export const Route = createFileRoute('/dashboard/Help')({
   component: RouteComponent
 })
 

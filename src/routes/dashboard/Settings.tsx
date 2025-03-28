@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/select'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
-export const Route = createFileRoute('/dashboard/settings')({
+export const Route = createFileRoute('/dashboard/Settings')({
   component: RouteComponent
 })
 
