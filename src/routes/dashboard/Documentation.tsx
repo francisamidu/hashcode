@@ -24,7 +24,7 @@ import {
   Rocket
 } from 'lucide-react'
 
-export const Route = createFileRoute('/dashboard/Documentation')({
+export const Route = createFileRoute('/dashboard/documentation')({
   component: RouteComponent
 })
 

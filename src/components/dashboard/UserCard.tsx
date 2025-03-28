@@ -10,6 +10,10 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useNavigate } from '@tanstack/react-router'
 import { UserCardProps } from '@/types/dashboard'
+import avatar from '@/assets/avatar.svg'
+import { useAuthStore } from '@/state/auth'
+import { useEffect } from 'react'
+import { IUserProfileRole } from '@/types/user'
 
 const UserCard = ({ username, transactionCount, onClick }: UserCardProps) => {
   const navigate = useNavigate()
@@ -29,15 +33,30 @@ const UserCard = ({ username, transactionCount, onClick }: UserCardProps) => {
     }
   }
 
+  const { setUser, user } = useAuthStore((store) => store)
+
+  useEffect(() => {
+    if (!user) {
+      setUser({
+        email: 'francis@awk.com',
+        id: '123',
+        isVerified: true,
+        userAccountRoleType: IUserProfileRole.Developer,
+        username: 'francis'
+      })
+    }
+    console.log(user)
+  }, [])
+
   return (
     <DropdownMenu>
       <div
-        className="rounded-md bg-gray-50 p-2 flex items-center justify-between border border-gray-100 hover:bg-gray-100 transition-colors"
+        className="rounded-md bg-gray-50 p-1 flex items-center justify-between border border-gray-100 hover:bg-gray-100 transition-colors"
         onClick={onClick}
       >
         <div className="flex items-center">
-          <div className="mr-2 text-amber-400 bg-white rounded p-3">
-            <Crown size={16} />
+          <div className="mr-2 px-3 py-2">
+            <img src={avatar} alt="Avatar image" className="w-7 h-7" />
           </div>
           <div>
             <p className="text-sm font-medium">{username}</p>

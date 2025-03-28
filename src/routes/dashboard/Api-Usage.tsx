@@ -7,7 +7,7 @@ import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
 import { ArrowUpRight } from 'lucide-react'
 
-export const Route = createFileRoute('/dashboard/Api-Usage')({
+export const Route = createFileRoute('/dashboard/api-usage')({
   component: RouteComponent
 })
 

@@ -33,7 +33,7 @@ import { decodeColumns } from '@/components/dashboard/Columns'
 import { decodeHistory } from '@/shared/data'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/dashboard/Decode')({
+export const Route = createFileRoute('/dashboard/decode')({
   component: RouteComponent
 })
 

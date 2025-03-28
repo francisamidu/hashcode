@@ -11,7 +11,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 
-export const Route = createFileRoute('/dashboard/Analytics')({
+export const Route = createFileRoute('/dashboard/analytics')({
   component: RouteComponent
 })
 

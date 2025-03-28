@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/select'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
-export const Route = createFileRoute('/dashboard/Settings')({
+export const Route = createFileRoute('/dashboard/settings')({
   component: RouteComponent
 })
 
@@ -54,12 +54,6 @@ function RouteComponent() {
             className="rounded-b-none data-[state=active]:border-b-2 data-[state=active]:border-indigo-600"
           >
             Notifications
-          </TabsTrigger>
-          <TabsTrigger
-            value="api"
-            className="rounded-b-none data-[state=active]:border-b-2 data-[state=active]:border-indigo-600"
-          >
-            API
           </TabsTrigger>
         </TabsList>
 

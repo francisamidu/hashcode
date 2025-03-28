@@ -55,6 +55,22 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 
+// Update the Plan interface to include currency
+interface Plan {
+  id: string
+  name: string
+  price: number
+  currency: string
+  description: string
+  features: string[]
+  limits: {
+    apiCalls: number
+    batchSize?: number
+    supportLevel: string
+  }
+  popular?: boolean
+}
+
 interface PlanFeature {
   name: string
   starter: string | boolean
@@ -62,78 +78,99 @@ interface PlanFeature {
   enterprise: string | boolean
 }
 
-interface Plan {
+// Add a new interface for Pay-As-You-Go options
+interface PayAsYouGo {
   id: string
-  name: string
-  price: number
-  description: string
-  features: string[]
-  limits: {
-    apiCalls: number
-    batchSize: number
-    supportLevel: string
-  }
-  popular?: boolean
+  topUpAmount: number
+  ratePerRequest: number
+  requestsProvided: number
+  currency: string
 }
 
-export const Route = createFileRoute('/dashboard/Billing')({
+export const Route = createFileRoute('/dashboard/billing')({
   component: RouteComponent
 })
 
 function RouteComponent() {
-  const [currentPlan, setCurrentPlan] = useState('professional')
+  const [currentPlan, setCurrentPlan] = useState('pro')
   const [showUpgradeDialog, setShowUpgradeDialog] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState('')
   const [showAddPaymentDialog, setShowAddPaymentDialog] = useState(false)
+  // Add a state for the active tab (subscription or pay-as-you-go)
+  const [pricingTab, setPricingTab] = useState('subscription')
 
+  // Update the plans array with the new pricing model
   const plans: Plan[] = [
     {
       id: 'starter',
       name: 'Starter',
-      price: 49,
+      price: 500,
+      currency: 'KES',
       description: 'For individuals and small projects',
       features: [
-        'Up to 10,000 API calls per month',
-        'Batch processing up to 100 hashes',
+        '1,500 API requests per month',
+        'KES 0.33 per request effective rate',
+        'KES 0.40 per request for extra usage',
         'Email support',
         '1 API key',
         'Basic analytics'
       ],
       limits: {
-        apiCalls: 10000,
-        batchSize: 100,
+        apiCalls: 1500,
         supportLevel: 'Email'
       }
     },
     {
-      id: 'professional',
-      name: 'Professional',
-      price: 199,
+      id: 'pro',
+      name: 'Pro',
+      price: 2000,
+      currency: 'KES',
       description: 'For growing businesses with advanced needs',
       features: [
-        'Up to 100,000 API calls per month',
-        'Batch processing up to 1,000 hashes',
+        '7,000 API requests per month',
+        'KES 0.29 per request effective rate',
+        'KES 0.35 per request for extra usage',
         'Priority email support',
         '5 API keys',
         'Advanced analytics',
-        'Webhook integrations',
-        'Custom rate limits'
+        'Webhook integrations'
       ],
       limits: {
-        apiCalls: 100000,
-        batchSize: 1000,
+        apiCalls: 7000,
         supportLevel: 'Priority'
       },
       popular: true
     },
     {
+      id: 'business',
+      name: 'Business',
+      price: 5000,
+      currency: 'KES',
+      description: 'For businesses with higher volume needs',
+      features: [
+        '20,000 API requests per month',
+        'KES 0.25 per request effective rate',
+        'KES 0.30 per request for extra usage',
+        'Priority support with faster response times',
+        '10 API keys',
+        'Advanced analytics and reporting',
+        'Custom webhook integrations',
+        'Dedicated account manager'
+      ],
+      limits: {
+        apiCalls: 20000,
+        supportLevel: 'Priority Plus'
+      }
+    },
+    {
       id: 'enterprise',
       name: 'Enterprise',
-      price: 499,
+      price: 10000,
+      currency: 'KES',
       description: 'For large organizations with high-volume needs',
       features: [
-        'Unlimited API calls',
-        'Batch processing up to 10,000 hashes',
+        '50,000+ API requests per month',
+        'Custom pricing for your specific needs',
         '24/7 dedicated support',
         'Unlimited API keys',
         'Enterprise analytics',
@@ -142,25 +179,37 @@ function RouteComponent() {
         'Dedicated account manager'
       ],
       limits: {
-        apiCalls: Number.POSITIVE_INFINITY,
-        batchSize: 10000,
+        apiCalls: 50000,
         supportLevel: 'Dedicated'
       }
     }
   ]
 
+  // Update the planFeatures array
   const planFeatures: PlanFeature[] = [
     {
-      name: 'API Calls',
-      starter: '10,000/mo',
-      professional: '100,000/mo',
-      enterprise: 'Unlimited'
+      name: 'Monthly Fee',
+      starter: 'KES 500',
+      professional: 'KES 2,000',
+      enterprise: 'KES 10,000+'
     },
     {
-      name: 'Batch Size',
-      starter: '100 hashes',
-      professional: '1,000 hashes',
-      enterprise: '10,000 hashes'
+      name: 'Included Requests',
+      starter: '1,500',
+      professional: '7,000',
+      enterprise: '50,000+'
+    },
+    {
+      name: 'Effective Rate',
+      starter: 'KES 0.33/request',
+      professional: 'KES 0.29/request',
+      enterprise: 'Custom'
+    },
+    {
+      name: 'Overage Cost',
+      starter: 'KES 0.40/request',
+      professional: 'KES 0.35/request',
+      enterprise: 'Custom'
     },
     {
       name: 'API Keys',
@@ -187,9 +236,9 @@ function RouteComponent() {
       enterprise: true
     },
     {
-      name: 'Custom Rate Limits',
+      name: 'Custom Integrations',
       starter: false,
-      professional: true,
+      professional: false,
       enterprise: true
     },
     {
@@ -201,8 +250,33 @@ function RouteComponent() {
     {
       name: 'Dedicated Account Manager',
       starter: false,
-      professional: false,
+      professional: true,
       enterprise: true
+    }
+  ]
+
+  // Add Pay-As-You-Go options
+  const payAsYouGoOptions: PayAsYouGo[] = [
+    {
+      id: 'small',
+      topUpAmount: 50,
+      ratePerRequest: 0.8,
+      requestsProvided: 62,
+      currency: 'KES'
+    },
+    {
+      id: 'medium',
+      topUpAmount: 500,
+      ratePerRequest: 0.5,
+      requestsProvided: 1000,
+      currency: 'KES'
+    },
+    {
+      id: 'large',
+      topUpAmount: 1000,
+      ratePerRequest: 0.35,
+      requestsProvided: 2857,
+      currency: 'KES'
     }
   ]
 
@@ -261,7 +335,7 @@ function RouteComponent() {
               </div>
               <div className="text-right">
                 <div className="text-3xl font-bold">
-                  ${currentPlanData.price}
+                  {currentPlanData.currency} {currentPlanData.price}
                 </div>
                 <div className="text-sm text-muted-foreground">per month</div>
               </div>
@@ -299,12 +373,14 @@ function RouteComponent() {
                     <span className="font-medium">Batch Processing</span>
                   </div>
                   <span className="text-sm">
-                    458 / {currentPlanData.limits.batchSize.toLocaleString()}{' '}
+                    458 / {currentPlanData.limits.batchSize?.toLocaleString()}{' '}
                     hashes
                   </span>
                 </div>
                 <Progress
-                  value={(458 / currentPlanData.limits.batchSize) * 100}
+                  value={
+                    (458 / (currentPlanData.limits.batchSize || 1000)) * 100
+                  }
                   className="h-2"
                 />
               </div>
@@ -324,7 +400,7 @@ function RouteComponent() {
               variant="outline"
               onClick={() =>
                 handleUpgradePlan(
-                  currentPlan === 'starter' ? 'professional' : 'enterprise'
+                  currentPlan === 'starter' ? 'pro' : 'enterprise'
                 )
               }
             >
@@ -344,7 +420,7 @@ function RouteComponent() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$156.78</div>
+            <div className="text-2xl font-bold">KES 4,500</div>
             <div className="mt-1 text-sm text-muted-foreground">
               Billing period: Apr 15 - May 14
             </div>
@@ -352,20 +428,20 @@ function RouteComponent() {
             <div className="mt-4 space-y-3">
               <div className="flex justify-between text-sm">
                 <span>Base plan</span>
-                <span>${currentPlanData.price}.00</span>
+                <span>KES {currentPlanData.price}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span>Additional API calls</span>
-                <span>$45.78</span>
+                <span>Additional API requests</span>
+                <span>KES 1,225</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>Batch processing</span>
-                <span>$11.00</span>
+                <span>KES 275</span>
               </div>
               <Separator className="my-2" />
               <div className="flex justify-between font-medium">
                 <span>Total</span>
-                <span>$156.78</span>
+                <span>KES 4,500</span>
               </div>
             </div>
 
@@ -398,7 +474,8 @@ function RouteComponent() {
                         <div className="flex flex-col items-center">
                           <span className="font-bold">{plan.name}</span>
                           <span className="text-muted-foreground">
-                            ${plan.price}/mo
+                            {plan.currency} {plan.price}
+                            {plan.id === 'enterprise' ? '+' : ''}/mo
                           </span>
                         </div>
                       </TableHead>
@@ -470,6 +547,148 @@ function RouteComponent() {
                 </TableBody>
               </Table>
             </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="mt-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base font-medium">
+              Pricing Options
+            </CardTitle>
+            <CardDescription>
+              Choose between subscription plans or pay-as-you-go
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Tabs value={pricingTab} onValueChange={setPricingTab}>
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="subscription">
+                  Subscription Plans
+                </TabsTrigger>
+                <TabsTrigger value="payg">Pay-As-You-Go</TabsTrigger>
+              </TabsList>
+              <TabsContent value="subscription" className="pt-4">
+                <div className="text-sm text-muted-foreground mb-4">
+                  Best for regular users who need a consistent volume of
+                  requests each month.
+                </div>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[200px]">Plan</TableHead>
+                        <TableHead>Monthly Fee</TableHead>
+                        <TableHead>Included Requests</TableHead>
+                        <TableHead>Effective Rate</TableHead>
+                        <TableHead>Overage Cost</TableHead>
+                        <TableHead></TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {plans.map((plan) => (
+                        <TableRow key={plan.id}>
+                          <TableCell className="font-medium">
+                            {plan.name}
+                          </TableCell>
+                          <TableCell>
+                            {plan.id === 'enterprise'
+                              ? `${plan.currency} ${plan.price}+`
+                              : `${plan.currency} ${plan.price.toLocaleString()}`}
+                          </TableCell>
+                          <TableCell>
+                            {plan.id === 'enterprise'
+                              ? '50,000+'
+                              : plan.limits.apiCalls.toLocaleString()}
+                          </TableCell>
+                          <TableCell>
+                            {plan.id === 'enterprise'
+                              ? 'Custom'
+                              : `${plan.currency} 0.${plan.id === 'starter' ? '33' : plan.id === 'pro' ? '29' : '25'}/request`}
+                          </TableCell>
+                          <TableCell>
+                            {plan.id === 'enterprise'
+                              ? 'Custom'
+                              : `${plan.currency} 0.${plan.id === 'starter' ? '40' : plan.id === 'pro' ? '35' : '30'}/request`}
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              variant={
+                                plan.id === currentPlan ? 'outline' : 'default'
+                              }
+                              disabled={plan.id === currentPlan}
+                              onClick={() => handleUpgradePlan(plan.id)}
+                              className="w-full"
+                            >
+                              {plan.id === currentPlan
+                                ? 'Current Plan'
+                                : plan.id === 'enterprise'
+                                  ? 'Contact Sales'
+                                  : 'Select Plan'}
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </TabsContent>
+              <TabsContent value="payg" className="pt-4">
+                <div className="text-sm text-muted-foreground mb-4">
+                  For users who don't want a subscription, you can top up and
+                  pay per request.
+                </div>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Top-Up Amount</TableHead>
+                        <TableHead>Rate per Request</TableHead>
+                        <TableHead>Requests Provided</TableHead>
+                        <TableHead></TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {payAsYouGoOptions.map((option) => (
+                        <TableRow key={option.id}>
+                          <TableCell className="font-medium">
+                            {option.currency} {option.topUpAmount}
+                          </TableCell>
+                          <TableCell>
+                            {option.currency} {option.ratePerRequest.toFixed(2)}
+                          </TableCell>
+                          <TableCell>
+                            {option.requestsProvided.toLocaleString()} requests
+                          </TableCell>
+                          <TableCell>
+                            <Button variant="default" className="w-full">
+                              Top Up
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+                <div className="mt-4 p-4 bg-slate-50 rounded-lg border">
+                  <div className="flex items-start">
+                    <AlertCircle className="h-5 w-5 text-slate-600 mr-2 mt-0.5" />
+                    <div>
+                      <h4 className="font-medium">Pay-As-You-Go Balance</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Your current balance:{' '}
+                        <span className="font-medium">KES 0</span>
+                      </p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Top up your account to start using the API without a
+                        subscription.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
           </CardContent>
         </Card>
       </div>
@@ -556,7 +775,7 @@ function RouteComponent() {
                     <TableRow>
                       <TableCell>INV-2023045</TableCell>
                       <TableCell>April 15, 2023</TableCell>
-                      <TableCell>$199.00</TableCell>
+                      <TableCell>KES 2,000.00</TableCell>
                       <TableCell>
                         <Badge
                           variant="default"
@@ -576,7 +795,7 @@ function RouteComponent() {
                     <TableRow>
                       <TableCell>INV-2023044</TableCell>
                       <TableCell>March 15, 2023</TableCell>
-                      <TableCell>$199.00</TableCell>
+                      <TableCell>KES 2,000.00</TableCell>
                       <TableCell>
                         <Badge
                           variant="default"
@@ -596,7 +815,7 @@ function RouteComponent() {
                     <TableRow>
                       <TableCell>INV-2023043</TableCell>
                       <TableCell>February 15, 2023</TableCell>
-                      <TableCell>$199.00</TableCell>
+                      <TableCell>KES 2,000.00</TableCell>
                       <TableCell>
                         <Badge
                           variant="default"
@@ -616,7 +835,7 @@ function RouteComponent() {
                     <TableRow>
                       <TableCell>INV-2023042</TableCell>
                       <TableCell>January 15, 2023</TableCell>
-                      <TableCell>$199.00</TableCell>
+                      <TableCell>KES 2,000.00</TableCell>
                       <TableCell>
                         <Badge
                           variant="default"
@@ -636,7 +855,7 @@ function RouteComponent() {
                     <TableRow>
                       <TableCell>INV-2023041</TableCell>
                       <TableCell>December 15, 2022</TableCell>
-                      <TableCell>$199.00</TableCell>
+                      <TableCell>KES 2,000.00</TableCell>
                       <TableCell>
                         <Badge
                           variant="default"
@@ -677,31 +896,31 @@ function RouteComponent() {
                       <TableCell>TXN-20230415</TableCell>
                       <TableCell>April 15, 2023</TableCell>
                       <TableCell>Monthly subscription</TableCell>
-                      <TableCell>$199.00</TableCell>
+                      <TableCell>KES 2,000.00</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>TXN-20230315</TableCell>
                       <TableCell>March 15, 2023</TableCell>
                       <TableCell>Monthly subscription</TableCell>
-                      <TableCell>$199.00</TableCell>
+                      <TableCell>KES 2,000.00</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>TXN-20230215</TableCell>
                       <TableCell>February 15, 2023</TableCell>
                       <TableCell>Monthly subscription</TableCell>
-                      <TableCell>$199.00</TableCell>
+                      <TableCell>KES 2,000.00</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>TXN-20230115</TableCell>
                       <TableCell>January 15, 2023</TableCell>
                       <TableCell>Monthly subscription</TableCell>
-                      <TableCell>$199.00</TableCell>
+                      <TableCell>KES 2,000.00</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>TXN-20221215</TableCell>
                       <TableCell>December 15, 2022</TableCell>
                       <TableCell>Monthly subscription</TableCell>
-                      <TableCell>$199.00</TableCell>
+                      <TableCell>KES 2,000.00</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
@@ -784,7 +1003,8 @@ function RouteComponent() {
                   </div>
                 </div>
                 <div className="text-xl font-bold">
-                  ${currentPlanData.price}/mo
+                  {currentPlanData.currency} {currentPlanData.price}
+                  {currentPlanData.id === 'enterprise' ? '+' : ''}/mo
                 </div>
               </div>
 
@@ -800,7 +1020,9 @@ function RouteComponent() {
                   <div className="text-sm text-muted-foreground">New plan</div>
                 </div>
                 <div className="text-xl font-bold">
-                  ${plans.find((p) => p.id === selectedPlan)?.price}/mo
+                  {plans.find((p) => p.id === selectedPlan)?.currency}{' '}
+                  {plans.find((p) => p.id === selectedPlan)?.price}
+                  {selectedPlan === 'enterprise' ? '+' : ''}/mo
                 </div>
               </div>
             </div>
@@ -812,44 +1034,43 @@ function RouteComponent() {
                   <>
                     <li className="flex items-center text-sm">
                       <Check className="mr-2 h-4 w-4 text-green-600" />
-                      Unlimited API calls (was 100,000/mo)
+                      50,000+ API requests per month
                     </li>
                     <li className="flex items-center text-sm">
                       <Check className="mr-2 h-4 w-4 text-green-600" />
-                      Batch processing up to 10,000 hashes (was 1,000)
+                      Custom pricing for your specific needs
                     </li>
                     <li className="flex items-center text-sm">
                       <Check className="mr-2 h-4 w-4 text-green-600" />
-                      24/7 dedicated support (was priority email)
+                      24/7 dedicated support
                     </li>
                   </>
                 )}
-                {selectedPlan === 'professional' &&
-                  currentPlan === 'starter' && (
-                    <>
-                      <li className="flex items-center text-sm">
-                        <Check className="mr-2 h-4 w-4 text-green-600" />
-                        100,000 API calls/mo (was 10,000/mo)
-                      </li>
-                      <li className="flex items-center text-sm">
-                        <Check className="mr-2 h-4 w-4 text-green-600" />
-                        Batch processing up to 1,000 hashes (was 100)
-                      </li>
-                      <li className="flex items-center text-sm">
-                        <Check className="mr-2 h-4 w-4 text-green-600" />
-                        Priority email support (was standard email)
-                      </li>
-                    </>
-                  )}
+                {selectedPlan === 'pro' && currentPlan === 'starter' && (
+                  <>
+                    <li className="flex items-center text-sm">
+                      <Check className="mr-2 h-4 w-4 text-green-600" />
+                      7,000 API requests per month (was 1,500/mo)
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <Check className="mr-2 h-4 w-4 text-green-600" />
+                      KES 0.29 per request effective rate (was KES 0.33)
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <Check className="mr-2 h-4 w-4 text-green-600" />
+                      Priority email support (was standard email)
+                    </li>
+                  </>
+                )}
                 {selectedPlan === 'starter' && (
                   <>
                     <li className="flex items-center text-sm">
                       <AlertCircle className="mr-2 h-4 w-4 text-amber-600" />
-                      10,000 API calls/mo (was 100,000/mo)
+                      1,500 API requests per month (was 7,000/mo)
                     </li>
                     <li className="flex items-center text-sm">
                       <AlertCircle className="mr-2 h-4 w-4 text-amber-600" />
-                      Batch processing limited to 100 hashes (was 1,000)
+                      KES 0.33 per request effective rate (was KES 0.29)
                     </li>
                     <li className="flex items-center text-sm">
                       <AlertCircle className="mr-2 h-4 w-4 text-amber-600" />
@@ -857,7 +1078,7 @@ function RouteComponent() {
                     </li>
                     <li className="flex items-center text-sm">
                       <AlertCircle className="mr-2 h-4 w-4 text-amber-600" />
-                      No webhook integrations or custom rate limits
+                      No webhook integrations
                     </li>
                   </>
                 )}
