@@ -1,6 +1,5 @@
 import AltFooter from '@/components/AltFooter'
 import AuthNavbar from '@/components/AuthNavbar'
-import ErrorFallback from '@/components/ErrorFallback'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 
 const Index = () => {
@@ -16,8 +15,7 @@ const Index = () => {
 }
 
 export const Route = createRootRoute({
-  component: Index,
-  errorComponent: ErrorFallback
+  component: Index
 })
 
 export default Index

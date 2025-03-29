@@ -23,9 +23,7 @@ export const LoginSchema = z.object({
     .min(1, { message: 'Email is required' })
     .email({ message: 'Invalid email address' }),
 
-  password: passwordSchema,
-
-  rememberMe: z.boolean().optional().default(false)
+  password: passwordSchema
 })
 
 export type LoginSchemaType = z.infer<typeof LoginSchema>

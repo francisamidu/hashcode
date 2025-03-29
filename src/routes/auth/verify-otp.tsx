@@ -175,122 +175,124 @@ function RouteComponent() {
           <Logo />
         </div>
 
-        <Card className="border-slate-200 shadow-lg mt-5">
-          <CardHeader className="space-y-1">
-            <div className="relative flex items-center justify-center">
-              <Link
-                to="/auth/login"
-                className="absolute top-1/4 left-0 text-slate-500 hover:text-indigo-600 mr-2"
-              >
-                <ArrowLeft className="h-5 w-5" />
-              </Link>
-              <CardTitle className="text-2xl font-bold !justify-self-center">
-                Verify Your Account
-              </CardTitle>
-            </div>
-            <div className="flex justify-center my-3">
-              <img
-                src={VerificationImage}
-                alt="Verification"
-                className="h-24 w-24"
-              />
-            </div>
-            <CardDescription className="text-center">
-              An email with a 6-digit code sent to fra*****24.com. Enter it
-              below to complete the signup
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-4">
-                {error && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )}
+        <form>
+          <Card className="border-slate-200 shadow-lg mt-5">
+            <CardHeader className="space-y-1">
+              <div className="relative flex items-center justify-center">
+                <Link
+                  to="/auth/login"
+                  className="absolute top-1/4 left-0 text-slate-500 hover:text-indigo-600 mr-2"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </Link>
+                <CardTitle className="text-2xl font-bold !justify-self-center">
+                  Verify Your Account
+                </CardTitle>
+              </div>
+              <div className="flex justify-center my-3">
+                <img
+                  src={VerificationImage}
+                  alt="Verification"
+                  className="h-24 w-24"
+                />
+              </div>
+              <CardDescription className="text-center">
+                An email with a 6-digit code sent to fra*****24.com. Enter it
+                below to complete the signup
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-4">
+                  {error && (
+                    <Alert variant="destructive">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                  )}
 
-                {success && (
-                  <Alert className="bg-green-50 text-green-800 border-green-200">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                    <AlertDescription>
-                      Verification successful! Redirecting...
-                    </AlertDescription>
-                  </Alert>
-                )}
+                  {success && (
+                    <Alert className="bg-green-50 text-green-800 border-green-200">
+                      <CheckCircle className="h-4 w-4 text-green-600" />
+                      <AlertDescription>
+                        Verification successful! Redirecting...
+                      </AlertDescription>
+                    </Alert>
+                  )}
 
-                <div className="flex justify-center">
-                  <div className="flex gap-2">
-                    {otp.map((digit, index) => (
-                      <Input
-                        key={index}
-                        ref={(el) => (inputRefs.current[index] = el)}
-                        type="text"
-                        inputMode="numeric"
-                        autoComplete="one-time-code"
-                        pattern="\d{1}"
-                        maxLength={1}
-                        value={digit}
-                        onChange={(e) => handleChange(index, e.target.value)}
-                        onKeyDown={(e) => handleKeyDown(index, e)}
-                        onPaste={index === 0 ? handlePaste : undefined}
-                        className="h-14 w-12 text-center text-xl font-semibold border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"
-                        disabled={isVerifying || success}
-                      />
-                    ))}
+                  <div className="flex justify-center">
+                    <div className="flex gap-2">
+                      {otp.map((digit, index) => (
+                        <Input
+                          key={index}
+                          ref={(el) => (inputRefs.current[index] = el)}
+                          type="text"
+                          inputMode="numeric"
+                          autoComplete="one-time-code"
+                          pattern="\d{1}"
+                          maxLength={1}
+                          value={digit}
+                          onChange={(e) => handleChange(index, e.target.value)}
+                          onKeyDown={(e) => handleKeyDown(index, e)}
+                          onPaste={index === 0 ? handlePaste : undefined}
+                          className="h-14 w-12 text-center text-xl font-semibold border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"
+                          disabled={isVerifying || success}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="text-center text-sm text-slate-500">
+                    {!canResend ? (
+                      <p>Resend code in {formatTime(timeLeft)}</p>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleResend}
+                        className="text-indigo-600 hover:text-indigo-800 font-medium"
+                      >
+                        Resend verification code
+                      </button>
+                    )}
                   </div>
                 </div>
 
-                <div className="text-center text-sm text-slate-500">
-                  {!canResend ? (
-                    <p>Resend code in {formatTime(timeLeft)}</p>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={
+                    otp.some((digit) => digit === '') || isVerifying || success
+                  }
+                >
+                  {isVerifying ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Verifying...
+                    </>
+                  ) : success ? (
+                    <>
+                      <CheckCircle className="mr-2 h-4 w-4" />
+                      Verified
+                    </>
                   ) : (
-                    <button
-                      type="button"
-                      onClick={handleResend}
-                      className="text-indigo-600 hover:text-indigo-800 font-medium"
-                    >
-                      Resend verification code
-                    </button>
+                    'Verify'
                   )}
-                </div>
+                </Button>
+              </form>
+            </CardContent>
+            <CardFooter className="flex flex-col space-y-2">
+              <div className="text-center text-sm text-slate-500">
+                Incorrect email?{' '}
+                <Link
+                  to="/support"
+                  className="text-indigo-600 hover:text-indigo-800 font-medium"
+                >
+                  Change email
+                </Link>
               </div>
-
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={
-                  otp.some((digit) => digit === '') || isVerifying || success
-                }
-              >
-                {isVerifying ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Verifying...
-                  </>
-                ) : success ? (
-                  <>
-                    <CheckCircle className="mr-2 h-4 w-4" />
-                    Verified
-                  </>
-                ) : (
-                  'Verify'
-                )}
-              </Button>
-            </form>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-2">
-            <div className="text-center text-sm text-slate-500">
-              Incorrect email?{' '}
-              <Link
-                to="/support"
-                className="text-indigo-600 hover:text-indigo-800 font-medium"
-              >
-                Change email
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>
+            </CardFooter>
+          </Card>
+        </form>
       </div>
     </div>
   )

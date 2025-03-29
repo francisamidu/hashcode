@@ -1,23 +1,18 @@
 import React from 'react'
 import { motion } from 'motion/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'react-toastify'
+import { useMutation } from '@tanstack/react-query'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Label } from '@/components/ui/label'
 import AuthNavbar from '@/components/AuthNavbar'
 import AnimatedBackground from '@/components/AnimatedBackground'
 import SocialButton from '@/components/SocialButton'
+import { Button } from '@/components/ui/button'
 import { useAppState } from '@/state/app'
-
 import { LoginSchema, LoginSchemaType } from '@/utils/validation'
-import { useMutation } from '@tanstack/react-query'
 import { login as loginFn } from '@/api/auth'
 import { handleError } from '@/utils/handleError'
+import { useAppForm } from '@/hooks/form'
 // import { useAuthStore } from '@/state/auth'
 
 export const Route = createFileRoute('/auth/login')({
@@ -29,44 +24,47 @@ export default function RouteComponent() {
 
   // const { setIsAuthenticated, setUser } = useAuthStore()
 
-  const login = useMutation({
-    mutationFn: loginFn
-  })
+  // const login = useMutation({
+  //   mutationFn: loginFn
+  // })
 
-  const form = useForm<LoginSchemaType>({
-    resolver: zodResolver(LoginSchema),
+  const { Field, Subscribe } = useAppForm({
     defaultValues: {
       email: '',
-      password: '',
-      rememberMe: false
+      password: ''
+    },
+    validators: {
+      onChange: LoginSchema
+    },
+    onSubmit: async (s) => {
+      console.log(s)
+      // login.mutate(data, {
+      //   onError: async (error) => {
+      //     const err = handleError(error)
+      //     toast.error(err.message)
+      //   },
+      //   onSuccess: async (response) => {
+      //     // setUser({
+      //     //   ...response.user,
+      //     //   accessToken: response.accessToken,
+      //     //   refreshToken: response.refreshToken,
+      //     //   isVerified: response.user.isVerified
+      //     // })
+      //     // setIsAuthenticated(true)
+      //     toast.success('Logged in')
+      //   }
+      // })
     }
   })
 
-  const onSubmit: SubmitHandler<LoginSchemaType> = (data) => {
-    login.mutate(data, {
-      onError: async (error) => {
-        const err = handleError(error)
-        toast.error(err.message)
-      },
-      onSuccess: async (response) => {
-        // setUser({
-        //   ...response.user,
-        //   accessToken: response.accessToken,
-        //   refreshToken: response.refreshToken,
-        //   isVerified: response.user.isVerified
-        // })
-        // setIsAuthenticated(true)
-        toast.success('Logged in')
-      }
-    })
-  }
+  // <AppField> -
 
   return (
     <div className="flex min-h-screen flex-col">
       <AnimatedBackground />
       <AuthNavbar />
-      <main className="flex flex-1 items-center justify-center py-12">
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+      <div className="flex flex-1 items-center justify-center py-12">
+        <form>
           <motion.div
             className="w-full max-w-md px-4"
             initial={{ opacity: 0, y: 20 }}
@@ -123,36 +121,29 @@ export default function RouteComponent() {
                 <span className="after:absolute after:right-0 after:w-1/4 after:border-t after:border-gray-300 after:top-1/2 after:transform after:-translate-y-1/2 dark:after:border-gray-600"></span>
               </div>
 
-              {/* Email Field */}
-              <Controller
+              <Field
                 name="email"
-                control={form.control}
-                render={({ field }) => (
+                children={({ state, handleChange, handleBlur }) => (
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
+                    <label htmlFor="email">Email</label>
+                    <input
                       id="email"
                       type="email"
-                      {...field}
+                      value={state.value}
+                      onChange={(e) => handleChange(e.target.value)}
+                      onBlur={handleBlur}
                       className="h-10 rounded-sm"
                     />
-                    {form.formState?.errors?.email && (
-                      <p className="text-red-500 text-sm">
-                        {form.formState.errors.email.message}
-                      </p>
-                    )}
                   </div>
                 )}
               />
 
-              {/* Password Field */}
-              <Controller
+              <Field
                 name="password"
-                control={form.control}
-                render={({ field }) => (
+                children={({ state, handleChange, handleBlur }) => (
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="password">Password</Label>
+                      <label htmlFor="password">Password</label>
                       <Link
                         to="/"
                         className="text-xs font-medium text-blue-600 hover:text-blue-500"
@@ -160,48 +151,30 @@ export default function RouteComponent() {
                         Forgot password?
                       </Link>
                     </div>
-                    <Input
+                    <input
                       id="password"
                       type="password"
-                      {...field}
+                      value={state.value}
+                      onChange={(e) => handleChange(e.target.value)}
+                      onBlur={handleBlur}
                       className="h-10 rounded-sm"
                     />
-                    {form.formState?.errors?.password && (
-                      <p className="text-red-500 text-sm">
-                        {form.formState.errors.password.message}
-                      </p>
-                    )}
                   </div>
                 )}
               />
 
-              <Controller
-                name="rememberMe"
-                control={form.control}
-                render={({ field: { value, onChange } }) => (
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="remember"
-                      checked={value}
-                      onCheckedChange={onChange}
-                    />
-                    <label htmlFor="remember" className="text-sm text-gray-600">
-                      Remember me
-                    </label>
-                  </div>
+              <Subscribe
+                selector={(state) => state.canSubmit}
+                children={(canSubmit) => (
+                  <Button
+                    type="submit"
+                    className="w-full rounded-sm"
+                    disabled={!canSubmit}
+                  >
+                    Log in
+                  </Button>
                 )}
               />
-
-              {/* Submit Button */}
-              <div>
-                <Button
-                  className="w-full rounded-sm"
-                  type="submit"
-                  disabled={form.formState?.isSubmitting}
-                >
-                  Log in
-                </Button>
-              </div>
             </motion.div>
 
             <motion.div
@@ -230,7 +203,7 @@ export default function RouteComponent() {
             </motion.div>
           </motion.div>
         </form>
-      </main>
+      </div>
     </div>
   )
 }

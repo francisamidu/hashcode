@@ -10,7 +10,7 @@ import 'react-toastify/ReactToastify.css'
 import '@/styles/main.css'
 
 // Create a client
-const queryClient = new QueryClient()
+// const queryClient = new QueryClient()
 
 // Create a new router instance
 const router = createRouter({ routeTree })
@@ -28,11 +28,11 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <ToastContainer />
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      {/* <QueryClientProvider client={queryClient}> */}
+      <ToastContainer />
+      <RouterProvider router={router} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      {/* </QueryClientProvider> */}
     </StrictMode>
   )
 }

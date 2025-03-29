@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { motion } from 'motion/react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm, Form } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import AnimatedBackground from '@/components/AnimatedBackground'
@@ -19,6 +19,7 @@ import { useMutation } from '@tanstack/react-query'
 import { signup } from '@/api/auth'
 import { handleError } from '@/utils/handleError'
 import { toast } from 'react-toastify'
+import { useEffect } from 'react'
 
 export const Route = createFileRoute('/auth/signup')({
   component: RouteComponent
@@ -33,11 +34,7 @@ export default function RouteComponent() {
 
   const navigate = useNavigate()
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting }
-  } = useForm<SignupSchemaType>({
+  const form = useForm<SignupSchemaType>({
     resolver: zodResolver(SignupSchema),
     defaultValues: {
       firstName: '',
@@ -48,10 +45,13 @@ export default function RouteComponent() {
       termsAgreed: false
     }
   })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = form
 
-  const onSubmit: SubmitHandler<SignupSchemaType> = async (
-    data: SignupSchemaType
-  ) => {
+  const onSubmit: SubmitHandler<SignupSchemaType> = async (data, _event) => {
     try {
       navigate({
         to: '/auth/verify-otp',
@@ -62,11 +62,13 @@ export default function RouteComponent() {
     }
   }
 
+  // const workOnSubmit = async (event: any) =>
+
   return (
-    <div className="flex min-h-screen flex-col">
+    <main className="flex min-h-screen flex-col">
       <AnimatedBackground />
       <AuthNavbar />
-      <main className="flex-1 py-12">
+      <div className="flex-1 py-12">
         <div className="container mx-auto px-4">
           <motion.div
             className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-2"
@@ -249,7 +251,7 @@ export default function RouteComponent() {
             </motion.div>
           </motion.div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   )
 }
