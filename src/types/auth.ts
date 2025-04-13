@@ -33,3 +33,33 @@ export interface IAuthUser {
   isVerified: boolean
   userAccountRoleType: IUserProfileRole
 }
+
+export type VerificationCode = {
+  code: string
+}
+
+export interface SignupFormState {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  businessName: string
+  errors: Partial<Record<keyof SignupFormState, string>>
+}
+
+// Type for form state
+export type LoginFormState = {
+  email: string
+  password: string
+  errors: {
+    email?: string
+    password?: string
+  }
+}
+
+export type OtpFormState = {
+  otp: string[]
+  errors: {
+    otp?: string
+  }
+}

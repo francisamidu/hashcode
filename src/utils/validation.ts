@@ -26,6 +26,13 @@ export const LoginSchema = z.object({
   password: passwordSchema
 })
 
+export const OtpSchema = z.object({
+  otp: z
+    .string()
+    .length(6, { message: 'OTP must be exactly 6 digits' })
+    .regex(/^\d+$/, { message: 'OTP must contain only digits' })
+})
+
 export type LoginSchemaType = z.infer<typeof LoginSchema>
 
 export const SignupSchema = z.object({
@@ -59,14 +66,10 @@ export const SignupSchema = z.object({
       }
     ),
 
-  company: z
+  businessName: z
     .string()
+    .min(2, { message: 'Company name must be at least 2 characters' })
     .max(100, { message: 'Company name must be less than 100 characters' })
-    .optional(),
-
-  termsAgreed: z.boolean().refine((val) => val === true, {
-    message: 'You must agree to the terms and conditions'
-  })
 })
 
 // Type inference for TypeScript
@@ -83,6 +86,5 @@ export const initialSignupFormState: SignupSchemaType = {
   lastName: '',
   email: '',
   password: '',
-  company: '',
-  termsAgreed: false
+  businessName: ''
 }

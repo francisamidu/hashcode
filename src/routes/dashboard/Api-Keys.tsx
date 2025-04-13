@@ -562,6 +562,6 @@ fetch('https://api.hashcode.dev/v1/decode', {
   )
 }
 
-export const Route = createFileRoute('/dashboard/Api-Keys')({
+export const Route = createFileRoute('/dashboard/api-keys')({
   component: RouteComponent
 })

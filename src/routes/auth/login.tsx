@@ -8,63 +8,90 @@ import AuthNavbar from '@/components/AuthNavbar'
 import AnimatedBackground from '@/components/AnimatedBackground'
 import SocialButton from '@/components/SocialButton'
 import { Button } from '@/components/ui/button'
-import { useAppState } from '@/state/app'
-import { LoginSchema, LoginSchemaType } from '@/utils/validation'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { login as loginFn } from '@/api/auth'
 import { handleError } from '@/utils/handleError'
-import { useAppForm } from '@/hooks/form'
-// import { useAuthStore } from '@/state/auth'
 
-export const Route = createFileRoute('/auth/login')({
-  component: RouteComponent
-})
+import { useAuthStore } from '@/state/auth'
+import { useLoginForm } from '@/hooks/form'
+import { useAppState } from '@/state/app'
 
-export default function RouteComponent() {
-  const appName = useAppState((state) => state.appName)
+function RouteComponent() {
+  const { setIsAuthenticated, setUser } = useAuthStore()
 
-  // const { setIsAuthenticated, setUser } = useAuthStore()
+  const { appName } = useAppState()
 
-  // const login = useMutation({
-  //   mutationFn: loginFn
-  // })
+  const { formState, handleChange, isValid, resetForm, validateForm } =
+    useLoginForm()
 
-  const { Field, Subscribe } = useAppForm({
-    defaultValues: {
-      email: '',
-      password: ''
-    },
-    validators: {
-      onChange: LoginSchema
-    },
-    onSubmit: async (s) => {
-      console.log(s)
-      // login.mutate(data, {
-      //   onError: async (error) => {
-      //     const err = handleError(error)
-      //     toast.error(err.message)
-      //   },
-      //   onSuccess: async (response) => {
-      //     // setUser({
-      //     //   ...response.user,
-      //     //   accessToken: response.accessToken,
-      //     //   refreshToken: response.refreshToken,
-      //     //   isVerified: response.user.isVerified
-      //     // })
-      //     // setIsAuthenticated(true)
-      //     toast.success('Logged in')
-      //   }
-      // })
-    }
+  const login = useMutation({
+    mutationFn: loginFn
   })
-
-  // <AppField> -
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+    const values = validateForm()
+    console.log(values)
+    if (isValid) {
+      login.mutate(
+        {
+          email: formState.email,
+          password: formState.password
+        },
+        {
+          onError: async (error) => {
+            console.log(error)
+            const err = handleError(error)
+            toast.error(err.message)
+          },
+          onSuccess: async (response) => {
+            console.log(response)
+            // setUser({
+            //   ...response.user,
+            //   accessToken: response.token,
+            //   refreshToken: response.refreshToken,
+            //   isVerified: response.user.isVerified
+            // })
+            // setIsAuthenticated(true)
+            // toast.success('Logged in')
+            resetForm()
+          }
+        }
+      )
+    } else {
+      toast.error(
+        () => (
+          <div>
+            <h4 className="font-bold mb-2">Form Validation Errors</h4>
+            <ul className="list-disc list-inside">
+              {Object.values(formState.errors).map((message, index) => (
+                <li key={index} className="text-sm">
+                  {message}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ),
+        {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light'
+        }
+      )
+    }
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
       <AnimatedBackground />
       <AuthNavbar />
       <div className="flex flex-1 items-center justify-center py-12">
-        <form>
+        <form onSubmit={handleSubmit}>
           <motion.div
             className="w-full max-w-md px-4"
             initial={{ opacity: 0, y: 20 }}
@@ -121,60 +148,45 @@ export default function RouteComponent() {
                 <span className="after:absolute after:right-0 after:w-1/4 after:border-t after:border-gray-300 after:top-1/2 after:transform after:-translate-y-1/2 dark:after:border-gray-600"></span>
               </div>
 
-              <Field
-                name="email"
-                children={({ state, handleChange, handleBlur }) => (
-                  <div className="space-y-2">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      id="email"
-                      type="email"
-                      value={state.value}
-                      onChange={(e) => handleChange(e.target.value)}
-                      onBlur={handleBlur}
-                      className="h-10 rounded-sm"
-                    />
-                  </div>
-                )}
-              />
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  className="h-10 rounded-sm"
+                  placeholder="Enter your email"
+                  value={formState.email}
+                  onChange={handleChange('email')}
+                />
+              </div>
 
-              <Field
-                name="password"
-                children={({ state, handleChange, handleBlur }) => (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="password">Password</label>
-                      <Link
-                        to="/"
-                        className="text-xs font-medium text-blue-600 hover:text-blue-500"
-                      >
-                        Forgot password?
-                      </Link>
-                    </div>
-                    <input
-                      id="password"
-                      type="password"
-                      value={state.value}
-                      onChange={(e) => handleChange(e.target.value)}
-                      onBlur={handleBlur}
-                      className="h-10 rounded-sm"
-                    />
-                  </div>
-                )}
-              />
-
-              <Subscribe
-                selector={(state) => state.canSubmit}
-                children={(canSubmit) => (
-                  <Button
-                    type="submit"
-                    className="w-full rounded-sm"
-                    disabled={!canSubmit}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password">Password</Label>
+                  <Link
+                    to="/"
+                    className="text-xs font-medium text-blue-600 hover:text-blue-500"
                   >
-                    Log in
-                  </Button>
-                )}
-              />
+                    Forgot password?
+                  </Link>
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  className="h-10 rounded-sm"
+                  value={formState.password}
+                  onChange={handleChange('password')}
+                  placeholder="Enter your password"
+                />
+              </div>
+
+              <Button
+                disabled={!isValid}
+                type="submit"
+                className="w-full rounded-sm"
+              >
+                Log in
+              </Button>
             </motion.div>
 
             <motion.div
@@ -207,3 +219,7 @@ export default function RouteComponent() {
     </div>
   )
 }
+
+export const Route = createFileRoute('/auth/login')({
+  component: RouteComponent
+})

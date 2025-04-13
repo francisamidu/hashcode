@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useLocation } from '@tanstack/react-router'
 import React from 'react'
 
 import { useState, useEffect, useRef } from 'react'
@@ -17,6 +17,13 @@ import { ArrowLeft, AlertCircle, CheckCircle, Loader2 } from 'lucide-react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import Logo from '@/components/Logo'
 import VerificationImage from '@/assets/verification-otp.svg'
+import { selectLocationState } from '@/utils/location'
+import { verify as verifyFn } from '@/api/auth'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
+import { handleError } from '@/utils/handleError'
+import { useAuthStore } from '@/state/auth'
+import { IUserProfileRole } from '@/types/user'
 
 export const Route = createFileRoute('/auth/verify-otp')({
   component: RouteComponent
@@ -24,6 +31,7 @@ export const Route = createFileRoute('/auth/verify-otp')({
 
 function RouteComponent() {
   const navigate = useNavigate()
+  const {setUser} = useAuthStore()
   const [otp, setOtp] = useState<string[]>(Array(6).fill(''))
   const [isVerifying, setIsVerifying] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -31,6 +39,8 @@ function RouteComponent() {
   const [timeLeft, setTimeLeft] = useState(60)
   const [canResend, setCanResend] = useState(false)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+
+  const verify = useMutation({ mutationFn: verifyFn })
 
   // Timer for OTP expiration
   useEffect(() => {
@@ -44,11 +54,28 @@ function RouteComponent() {
     }
   }, [timeLeft, canResend])
 
+
   // Format time as MM:SS
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
     const secs = seconds % 60
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  }
+
+  const handleSetOtp = (otp: string) => {
+    // Check if pasted content is a valid OTP (numbers only)
+    if (!/^\d+$/.test(otp)) return
+
+    const pastedOtp = otp.substring(0, 6).split('')
+    const newOtp = [...otp]
+
+    for (let i = 0; i < pastedOtp.length; i++) {
+      if (i < 6) {
+        newOtp[i] = pastedOtp[i]
+      }
+    }
+
+    setOtp(newOtp)
   }
 
   // Handle input change
@@ -97,13 +124,7 @@ function RouteComponent() {
     const pastedOtp = pastedData.substring(0, 6).split('')
     const newOtp = [...otp]
 
-    for (let i = 0; i < pastedOtp.length; i++) {
-      if (i < 6) {
-        newOtp[i] = pastedOtp[i]
-      }
-    }
-
-    setOtp(newOtp)
+    handleSetOtp(pastedOtp.join(''))
 
     // Focus the next empty input or the last input
     const nextEmptyIndex = newOtp.findIndex((val) => val === '')
@@ -117,7 +138,7 @@ function RouteComponent() {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
+    setIsVerifying(true)
     const otpValue = otp.join('')
 
     // Validate OTP
@@ -126,30 +147,36 @@ function RouteComponent() {
       return
     }
 
-    setIsVerifying(true)
-    setError(null)
-
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
-      // For demo purposes, let's say 123456 is a valid OTP
-      if (otpValue === '123456') {
-        setSuccess(true)
-        // Redirect after successful verification
-        setTimeout(() => {
-          navigate({
-            to: '/dashboard'
+    verify.mutate(
+      { code: otpValue },
+      {
+        onError: async (error) => {
+          console.log(error)
+          const err = handleError(error)
+          toast.error(err.message)
+          setIsVerifying(false)
+        },
+        onSuccess: async (_response) => {
+          setIsVerifying(false)
+          setSuccess(true)
+          setUser({      
+            id: '',
+              email: '',
+              username: '',
+              isVerified: true,
+              userAccountRoleType: IUserProfileRole.Owner
           })
-        }, 1500)
-      } else {
-        setError('Invalid verification code. Please try again.')
+          
+          toast.success("Verification Complete. Now Let's log in")
+          setTimeout(() => {
+            navigate({
+              to:'/auth/login',
+
+            })
+          },3000)
+        }
       }
-    } catch (err) {
-      setError('An error occurred. Please try again.')
-    } finally {
-      setIsVerifying(false)
-    }
+    )
   }
 
   // Handle resend OTP
