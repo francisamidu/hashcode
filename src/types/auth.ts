@@ -1,16 +1,14 @@
 // src/types/auth.ts
 
+import { IApiResponse } from './app'
 import { IUserProfileRole } from './user'
 
-export interface IAuthResponse {
-  accessToken: string
+export interface IAuthResponse extends IApiResponse<{
+  token: string
   refreshToken: string
-  user: {
-    id: string
-    email: string
-    username: string
-    isVerified: boolean
-  }
+  userId:string
+}> {
+  
 }
 
 export interface ILoginPayload {
@@ -31,6 +29,8 @@ export interface IAuthUser {
   email: string
   username: string
   isVerified: boolean
+  token:string
+  refreshToken:string
   userAccountRoleType: IUserProfileRole
 }
 

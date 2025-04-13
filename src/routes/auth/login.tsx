@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'motion/react'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { toast } from 'react-toastify'
 import { useMutation } from '@tanstack/react-query'
 
@@ -16,9 +16,12 @@ import { handleError } from '@/utils/handleError'
 import { useAuthStore } from '@/state/auth'
 import { useLoginForm } from '@/hooks/form'
 import { useAppState } from '@/state/app'
+import { IResponseMessage } from '@/types/app'
+import { IUserProfileRole } from '@/types/user'
 
 function RouteComponent() {
   const { setIsAuthenticated, setUser } = useAuthStore()
+  const navigate = useNavigate()
 
   const { appName } = useAppState()
 
@@ -31,7 +34,6 @@ function RouteComponent() {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     const values = validateForm()
-    console.log(values)
     if (isValid) {
       login.mutate(
         {
@@ -45,15 +47,31 @@ function RouteComponent() {
             toast.error(err.message)
           },
           onSuccess: async (response) => {
-            console.log(response)
-            // setUser({
-            //   ...response.user,
-            //   accessToken: response.token,
-            //   refreshToken: response.refreshToken,
-            //   isVerified: response.user.isVerified
-            // })
-            // setIsAuthenticated(true)
-            // toast.success('Logged in')
+            const message = response.message.toString()
+
+            if (response.status != 200) {
+              toast.error(message)
+              setTimeout(() => {
+                if (response.message === IResponseMessage.NOT_VERIFIED) {
+                  navigate({
+                    to: `/auth/verify-otp?email=${formState.email}`
+                  })
+                }
+              }, 3000)
+            } else {
+              const { data } = response
+              toast.success('Logged in')
+              setUser({
+                id: data.userId,
+                email: formState.email,
+                userAccountRoleType: IUserProfileRole.Owner,
+                username: '',
+                token: data.token,
+                refreshToken: data.refreshToken,
+                isVerified: false
+              })
+              setIsAuthenticated(true)
+            }
             resetForm()
           }
         }
@@ -180,11 +198,7 @@ function RouteComponent() {
                 />
               </div>
 
-              <Button
-                disabled={!isValid}
-                type="submit"
-                className="w-full rounded-sm"
-              >
+              <Button type="submit" className="w-full rounded-sm">
                 Log in
               </Button>
             </motion.div>

@@ -16,20 +16,9 @@ import { signup as signupFn } from '@/api/auth'
 import { handleError } from '@/utils/handleError'
 import { useSignupForm } from '@/hooks/form'
 import { useAppState } from '@/state/app'
-import { toFrontend } from '@/utils/formatResponse'
 
 function RouteComponent() {
   const { appName } = useAppState()
-
-  // Usage example:
-const backendData = {
-  user_account_is_verified: true,
-  user_account_verification_code: null,
-  user_account_verification_code_expiry_at: null,
-};
-
-const frontendData = toFrontend(backendData);
-console.log(frontendData)
 
   const navigate = useNavigate()
 
@@ -40,7 +29,6 @@ console.log(frontendData)
   const {
     formState,
     handleChange,
-    handleCheckboxChange,
     isComplete,
     isValid,
     resetForm,
@@ -66,20 +54,11 @@ console.log(frontendData)
             const err = handleError(error)
             toast.error(err.message)
           },
-          onSuccess: async (response) => {
+          onSuccess: async (_response) => {
             navigate({
               to: '/auth/verify-otp',
-              params: { email: formState.email, verificationCode: '123456' }
+              params: { email: formState.email}
             })
-
-            // setUser({
-            //   ...response.user,
-            //   accessToken: response.token,
-            //   refreshToken: response.refreshToken,
-            //   isVerified: response.user.isVerified
-            // })
-            // setIsAuthenticated(true)
-            // toast.success('Logged in')
             resetForm()
           }
         }
@@ -235,7 +214,7 @@ console.log(frontendData)
                     <div>
                       <Button
                         type="submit"
-                        className="w-full rounded-sm bg-gray-300 hover:bg-black text-white"
+                        className="w-full rounded-sm bg-gray-600 hover:bg-black text-white"
                         variant="secondary"
                       >
                         Create account

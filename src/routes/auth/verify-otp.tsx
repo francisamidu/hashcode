@@ -24,6 +24,8 @@ import { toast } from 'react-toastify'
 import { handleError } from '@/utils/handleError'
 import { useAuthStore } from '@/state/auth'
 import { IUserProfileRole } from '@/types/user'
+import { IResponseMessage } from '@/types/app'
+import { maskEmail } from '@/utils/util'
 
 export const Route = createFileRoute('/auth/verify-otp')({
   component: RouteComponent
@@ -31,7 +33,7 @@ export const Route = createFileRoute('/auth/verify-otp')({
 
 function RouteComponent() {
   const navigate = useNavigate()
-  const {setUser} = useAuthStore()
+  const { setUser } = useAuthStore()
   const [otp, setOtp] = useState<string[]>(Array(6).fill(''))
   const [isVerifying, setIsVerifying] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -39,6 +41,8 @@ function RouteComponent() {
   const [timeLeft, setTimeLeft] = useState(60)
   const [canResend, setCanResend] = useState(false)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+
+  const { email } = useLocation({ select: selectLocationState })
 
   const verify = useMutation({ mutationFn: verifyFn })
 
@@ -53,7 +57,6 @@ function RouteComponent() {
       setCanResend(true)
     }
   }, [timeLeft, canResend])
-
 
   // Format time as MM:SS
   const formatTime = (seconds: number) => {
@@ -146,7 +149,7 @@ function RouteComponent() {
       setError('Please enter all 6 digits of the OTP')
       return
     }
-
+    // 577868
     verify.mutate(
       { code: otpValue },
       {
@@ -156,24 +159,39 @@ function RouteComponent() {
           toast.error(err.message)
           setIsVerifying(false)
         },
-        onSuccess: async (_response) => {
+        onSuccess: async (response) => {
           setIsVerifying(false)
-          setSuccess(true)
-          setUser({      
-            id: '',
-              email: '',
-              username: '',
-              isVerified: true,
-              userAccountRoleType: IUserProfileRole.Owner
-          })
-          
-          toast.success("Verification Complete. Now Let's log in")
-          setTimeout(() => {
-            navigate({
-              to:'/auth/login',
+          const message = response.message.toString()
 
+          if (response.status != 200) {
+            toast.error(message)
+            setTimeout(() => {
+              if (response.message === IResponseMessage.NOT_REGISTERED) {
+                navigate({
+                  to: '/auth/signup'
+                })
+              }
+            }, 3000)
+          } else {
+            const { data } = response
+            toast.success("Verification complete. Now let's log in")
+            setSuccess(true)
+            setUser({
+              id: data.userId,
+              email,
+              userAccountRoleType: IUserProfileRole.Owner,
+              username: '',
+              token: data.token,
+              refreshToken: data.refreshToken,
+              isVerified: true
             })
-          },3000)
+            toast.success("Verification Complete. Now Let's log in")
+            setTimeout(() => {
+              navigate({
+                to: '/auth/login'
+              })
+            }, 3000)
+          }
         }
       }
     )
@@ -202,7 +220,7 @@ function RouteComponent() {
           <Logo />
         </div>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <Card className="border-slate-200 shadow-lg mt-5">
             <CardHeader className="space-y-1">
               <div className="relative flex items-center justify-center">
@@ -224,12 +242,12 @@ function RouteComponent() {
                 />
               </div>
               <CardDescription className="text-center">
-                An email with a 6-digit code sent to fra*****24.com. Enter it
-                below to complete the signup
+                {`An email with a 6-digit code sent to ${maskEmail(email)}. Enter it
+                below to complete the signup`}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-6">
                 <div className="space-y-4">
                   {error && (
                     <Alert variant="destructive">
@@ -269,7 +287,7 @@ function RouteComponent() {
                     </div>
                   </div>
 
-                  <div className="text-center text-sm text-slate-500">
+                  {/* <div className="text-center text-sm text-slate-500">
                     {!canResend ? (
                       <p>Resend code in {formatTime(timeLeft)}</p>
                     ) : (
@@ -281,15 +299,15 @@ function RouteComponent() {
                         Resend verification code
                       </button>
                     )}
-                  </div>
+                  </div> */}
                 </div>
 
                 <Button
                   type="submit"
                   className="w-full"
-                  disabled={
-                    otp.some((digit) => digit === '') || isVerifying || success
-                  }
+                  // disabled={
+                  //   otp.some((digit) => digit === '') || isVerifying || success
+                  // }
                 >
                   {isVerifying ? (
                     <>
@@ -305,7 +323,7 @@ function RouteComponent() {
                     'Verify'
                   )}
                 </Button>
-              </form>
+              </div>
             </CardContent>
             <CardFooter className="flex flex-col space-y-2">
               <div className="text-center text-sm text-slate-500">
