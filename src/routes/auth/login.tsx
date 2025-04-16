@@ -71,6 +71,7 @@ function RouteComponent() {
                 isVerified: false
               })
               setIsAuthenticated(true)
+              navigate({ to: '/dashboard' })
             }
             resetForm()
           }

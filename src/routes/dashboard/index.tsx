@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -16,7 +16,19 @@ import { CategoryItem } from '@/components/dashboard/CategoryItem'
 import { OperatorItem } from '@/components/dashboard/OperatorItem'
 
 export const Route = createFileRoute('/dashboard/')({
-  component: RouteComponent
+  beforeLoad: async ({ context, location }) => {
+    if (!context?.auth.isAuthenticated) {
+      throw redirect({
+        to: '/auth/login',
+        search: {
+          redirect: location.href
+        }
+      })
+    }
+  },
+
+  component: RouteComponent,
+  loader: async () => {}
 })
 
 function RouteComponent() {

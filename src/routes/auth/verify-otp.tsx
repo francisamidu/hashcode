@@ -174,7 +174,6 @@ function RouteComponent() {
             }, 3000)
           } else {
             const { data } = response
-            toast.success("Verification complete. Now let's log in")
             setSuccess(true)
             setUser({
               id: data.userId,

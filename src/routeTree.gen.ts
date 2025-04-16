@@ -22,15 +22,15 @@ import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as AuthIndexImport } from './routes/auth/index'
 import { Route as DashboardTeamImport } from './routes/dashboard/team'
 import { Route as DashboardAppsImport } from './routes/dashboard/apps'
-import { Route as DashboardApiUsageImport } from './routes/dashboard/api-usage'
-import { Route as DashboardApiKeysImport } from './routes/dashboard/api-keys'
-import { Route as DashboardAnalyticsImport } from './routes/dashboard/analytics'
 import { Route as DashboardSettingsImport } from './routes/dashboard/Settings'
 import { Route as DashboardProfileImport } from './routes/dashboard/Profile'
 import { Route as DashboardHelpImport } from './routes/dashboard/Help'
 import { Route as DashboardDocumentationImport } from './routes/dashboard/Documentation'
 import { Route as DashboardDecodeImport } from './routes/dashboard/Decode'
 import { Route as DashboardBillingImport } from './routes/dashboard/Billing'
+import { Route as DashboardApiUsageImport } from './routes/dashboard/Api-Usage'
+import { Route as DashboardApiKeysImport } from './routes/dashboard/Api-Keys'
+import { Route as DashboardAnalyticsImport } from './routes/dashboard/Analytics'
 import { Route as AuthVerifyOtpImport } from './routes/auth/verify-otp'
 import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthLoginImport } from './routes/auth/login'
@@ -103,24 +103,6 @@ const DashboardAppsRoute = DashboardAppsImport.update({
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 
-const DashboardApiUsageRoute = DashboardApiUsageImport.update({
-  id: '/api-usage',
-  path: '/api-usage',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-
-const DashboardApiKeysRoute = DashboardApiKeysImport.update({
-  id: '/api-keys',
-  path: '/api-keys',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-
-const DashboardAnalyticsRoute = DashboardAnalyticsImport.update({
-  id: '/analytics',
-  path: '/analytics',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-
 const DashboardSettingsRoute = DashboardSettingsImport.update({
   id: '/Settings',
   path: '/Settings',
@@ -154,6 +136,24 @@ const DashboardDecodeRoute = DashboardDecodeImport.update({
 const DashboardBillingRoute = DashboardBillingImport.update({
   id: '/Billing',
   path: '/Billing',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardApiUsageRoute = DashboardApiUsageImport.update({
+  id: '/Api-Usage',
+  path: '/Api-Usage',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardApiKeysRoute = DashboardApiKeysImport.update({
+  id: '/Api-Keys',
+  path: '/Api-Keys',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardAnalyticsRoute = DashboardAnalyticsImport.update({
+  id: '/Analytics',
+  path: '/Analytics',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 
@@ -249,6 +249,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthVerifyOtpImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/Analytics': {
+      id: '/dashboard/Analytics'
+      path: '/Analytics'
+      fullPath: '/dashboard/Analytics'
+      preLoaderRoute: typeof DashboardAnalyticsImport
+      parentRoute: typeof DashboardRouteImport
+    }
+    '/dashboard/Api-Keys': {
+      id: '/dashboard/Api-Keys'
+      path: '/Api-Keys'
+      fullPath: '/dashboard/Api-Keys'
+      preLoaderRoute: typeof DashboardApiKeysImport
+      parentRoute: typeof DashboardRouteImport
+    }
+    '/dashboard/Api-Usage': {
+      id: '/dashboard/Api-Usage'
+      path: '/Api-Usage'
+      fullPath: '/dashboard/Api-Usage'
+      preLoaderRoute: typeof DashboardApiUsageImport
+      parentRoute: typeof DashboardRouteImport
+    }
     '/dashboard/Billing': {
       id: '/dashboard/Billing'
       path: '/Billing'
@@ -291,27 +312,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSettingsImport
       parentRoute: typeof DashboardRouteImport
     }
-    '/dashboard/analytics': {
-      id: '/dashboard/analytics'
-      path: '/analytics'
-      fullPath: '/dashboard/analytics'
-      preLoaderRoute: typeof DashboardAnalyticsImport
-      parentRoute: typeof DashboardRouteImport
-    }
-    '/dashboard/api-keys': {
-      id: '/dashboard/api-keys'
-      path: '/api-keys'
-      fullPath: '/dashboard/api-keys'
-      preLoaderRoute: typeof DashboardApiKeysImport
-      parentRoute: typeof DashboardRouteImport
-    }
-    '/dashboard/api-usage': {
-      id: '/dashboard/api-usage'
-      path: '/api-usage'
-      fullPath: '/dashboard/api-usage'
-      preLoaderRoute: typeof DashboardApiUsageImport
-      parentRoute: typeof DashboardRouteImport
-    }
     '/dashboard/apps': {
       id: '/dashboard/apps'
       path: '/apps'
@@ -346,30 +346,30 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface DashboardRouteRouteChildren {
+  DashboardAnalyticsRoute: typeof DashboardAnalyticsRoute
+  DashboardApiKeysRoute: typeof DashboardApiKeysRoute
+  DashboardApiUsageRoute: typeof DashboardApiUsageRoute
   DashboardBillingRoute: typeof DashboardBillingRoute
   DashboardDecodeRoute: typeof DashboardDecodeRoute
   DashboardDocumentationRoute: typeof DashboardDocumentationRoute
   DashboardHelpRoute: typeof DashboardHelpRoute
   DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardSettingsRoute: typeof DashboardSettingsRoute
-  DashboardAnalyticsRoute: typeof DashboardAnalyticsRoute
-  DashboardApiKeysRoute: typeof DashboardApiKeysRoute
-  DashboardApiUsageRoute: typeof DashboardApiUsageRoute
   DashboardAppsRoute: typeof DashboardAppsRoute
   DashboardTeamRoute: typeof DashboardTeamRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardAnalyticsRoute: DashboardAnalyticsRoute,
+  DashboardApiKeysRoute: DashboardApiKeysRoute,
+  DashboardApiUsageRoute: DashboardApiUsageRoute,
   DashboardBillingRoute: DashboardBillingRoute,
   DashboardDecodeRoute: DashboardDecodeRoute,
   DashboardDocumentationRoute: DashboardDocumentationRoute,
   DashboardHelpRoute: DashboardHelpRoute,
   DashboardProfileRoute: DashboardProfileRoute,
   DashboardSettingsRoute: DashboardSettingsRoute,
-  DashboardAnalyticsRoute: DashboardAnalyticsRoute,
-  DashboardApiKeysRoute: DashboardApiKeysRoute,
-  DashboardApiUsageRoute: DashboardApiUsageRoute,
   DashboardAppsRoute: DashboardAppsRoute,
   DashboardTeamRoute: DashboardTeamRoute,
   DashboardIndexRoute: DashboardIndexRoute,
@@ -390,15 +390,15 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/verify-otp': typeof AuthVerifyOtpRoute
+  '/dashboard/Analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/Api-Keys': typeof DashboardApiKeysRoute
+  '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
   '/dashboard/Billing': typeof DashboardBillingRoute
   '/dashboard/Decode': typeof DashboardDecodeRoute
   '/dashboard/Documentation': typeof DashboardDocumentationRoute
   '/dashboard/Help': typeof DashboardHelpRoute
   '/dashboard/Profile': typeof DashboardProfileRoute
   '/dashboard/Settings': typeof DashboardSettingsRoute
-  '/dashboard/analytics': typeof DashboardAnalyticsRoute
-  '/dashboard/api-keys': typeof DashboardApiKeysRoute
-  '/dashboard/api-usage': typeof DashboardApiUsageRoute
   '/dashboard/apps': typeof DashboardAppsRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/auth': typeof AuthIndexRoute
@@ -415,15 +415,15 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/verify-otp': typeof AuthVerifyOtpRoute
+  '/dashboard/Analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/Api-Keys': typeof DashboardApiKeysRoute
+  '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
   '/dashboard/Billing': typeof DashboardBillingRoute
   '/dashboard/Decode': typeof DashboardDecodeRoute
   '/dashboard/Documentation': typeof DashboardDocumentationRoute
   '/dashboard/Help': typeof DashboardHelpRoute
   '/dashboard/Profile': typeof DashboardProfileRoute
   '/dashboard/Settings': typeof DashboardSettingsRoute
-  '/dashboard/analytics': typeof DashboardAnalyticsRoute
-  '/dashboard/api-keys': typeof DashboardApiKeysRoute
-  '/dashboard/api-usage': typeof DashboardApiUsageRoute
   '/dashboard/apps': typeof DashboardAppsRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/auth': typeof AuthIndexRoute
@@ -442,15 +442,15 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/verify-otp': typeof AuthVerifyOtpRoute
+  '/dashboard/Analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/Api-Keys': typeof DashboardApiKeysRoute
+  '/dashboard/Api-Usage': typeof DashboardApiUsageRoute
   '/dashboard/Billing': typeof DashboardBillingRoute
   '/dashboard/Decode': typeof DashboardDecodeRoute
   '/dashboard/Documentation': typeof DashboardDocumentationRoute
   '/dashboard/Help': typeof DashboardHelpRoute
   '/dashboard/Profile': typeof DashboardProfileRoute
   '/dashboard/Settings': typeof DashboardSettingsRoute
-  '/dashboard/analytics': typeof DashboardAnalyticsRoute
-  '/dashboard/api-keys': typeof DashboardApiKeysRoute
-  '/dashboard/api-usage': typeof DashboardApiUsageRoute
   '/dashboard/apps': typeof DashboardAppsRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/auth/': typeof AuthIndexRoute
@@ -470,15 +470,15 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/auth/verify-otp'
+    | '/dashboard/Analytics'
+    | '/dashboard/Api-Keys'
+    | '/dashboard/Api-Usage'
     | '/dashboard/Billing'
     | '/dashboard/Decode'
     | '/dashboard/Documentation'
     | '/dashboard/Help'
     | '/dashboard/Profile'
     | '/dashboard/Settings'
-    | '/dashboard/analytics'
-    | '/dashboard/api-keys'
-    | '/dashboard/api-usage'
     | '/dashboard/apps'
     | '/dashboard/team'
     | '/auth'
@@ -494,15 +494,15 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/auth/verify-otp'
+    | '/dashboard/Analytics'
+    | '/dashboard/Api-Keys'
+    | '/dashboard/Api-Usage'
     | '/dashboard/Billing'
     | '/dashboard/Decode'
     | '/dashboard/Documentation'
     | '/dashboard/Help'
     | '/dashboard/Profile'
     | '/dashboard/Settings'
-    | '/dashboard/analytics'
-    | '/dashboard/api-keys'
-    | '/dashboard/api-usage'
     | '/dashboard/apps'
     | '/dashboard/team'
     | '/auth'
@@ -519,15 +519,15 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/auth/verify-otp'
+    | '/dashboard/Analytics'
+    | '/dashboard/Api-Keys'
+    | '/dashboard/Api-Usage'
     | '/dashboard/Billing'
     | '/dashboard/Decode'
     | '/dashboard/Documentation'
     | '/dashboard/Help'
     | '/dashboard/Profile'
     | '/dashboard/Settings'
-    | '/dashboard/analytics'
-    | '/dashboard/api-keys'
-    | '/dashboard/api-usage'
     | '/dashboard/apps'
     | '/dashboard/team'
     | '/auth/'
@@ -592,15 +592,15 @@ export const routeTree = rootRoute
     "/dashboard": {
       "filePath": "dashboard/route.tsx",
       "children": [
+        "/dashboard/Analytics",
+        "/dashboard/Api-Keys",
+        "/dashboard/Api-Usage",
         "/dashboard/Billing",
         "/dashboard/Decode",
         "/dashboard/Documentation",
         "/dashboard/Help",
         "/dashboard/Profile",
         "/dashboard/Settings",
-        "/dashboard/analytics",
-        "/dashboard/api-keys",
-        "/dashboard/api-usage",
         "/dashboard/apps",
         "/dashboard/team",
         "/dashboard/"
@@ -630,6 +630,18 @@ export const routeTree = rootRoute
     "/auth/verify-otp": {
       "filePath": "auth/verify-otp.tsx"
     },
+    "/dashboard/Analytics": {
+      "filePath": "dashboard/Analytics.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/Api-Keys": {
+      "filePath": "dashboard/Api-Keys.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/Api-Usage": {
+      "filePath": "dashboard/Api-Usage.tsx",
+      "parent": "/dashboard"
+    },
     "/dashboard/Billing": {
       "filePath": "dashboard/Billing.tsx",
       "parent": "/dashboard"
@@ -652,18 +664,6 @@ export const routeTree = rootRoute
     },
     "/dashboard/Settings": {
       "filePath": "dashboard/Settings.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/analytics": {
-      "filePath": "dashboard/analytics.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/api-keys": {
-      "filePath": "dashboard/api-keys.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/api-usage": {
-      "filePath": "dashboard/api-usage.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/apps": {
